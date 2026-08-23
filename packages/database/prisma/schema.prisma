@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Language {
+  de
+  en
+}
+
+enum JobType {
+  fulltime
+  parttime
+  freelance
+  internship
+}
+
+model Media {
+  id          String   @id @default(cuid())
+  originalUrl String?
+  localPath   String?
+  mimeType    String?
+  altText     String?
+  width       Int?
+  height      Int?
+  wpId        Int?     @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  servicesFeatured     Service[]    @relation("ServiceFeaturedImage")
+  teamMembers          TeamMember[]
+  partners             Partner[]
+  blogPosts            BlogPost[]
+  siteSettingsHeader   SiteSettings[] @relation("HeaderImage")
+}
+
+model Service {
+  id              String   @id @default(cuid())
+  slug            String
+  language        Language
+  title           String
+  excerpt         String?
+  content         String?
+  secondHeading   String?
+  megaMenuItems   String?
+  sortOrder       Int      @default(0)
+  featuredImageId String?
+  featuredImage   Media?   @relation("ServiceFeaturedImage", fields: [featuredImageId], references: [id])
+  wpId            Int?     @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([slug, language])
+  @@index([language, sortOrder])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  position  String?
+  email     String?
+  phone     String?
+  aboutDe   String?
+  aboutEn   String?
+  sortOrder Int      @default(0)
+  imageId   String?
+  image     Media?   @relation(fields: [imageId], references: [id])
+  wpId      Int?     @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+model Job {
+  id             String    @id @default(cuid())
+  slug           String    @unique
+  title          String
+  location       String?
+  type           JobType?
+  departmentDe   String?
+  departmentEn   String?
+  deadline       String?
+  summaryDe      String?
+  summaryEn      String?
+  descriptionDe  String?
+  descriptionEn  String?
+  requirementsDe String?
+  requirementsEn String?
+  contactEmail   String?
+  sortOrder      Int       @default(0)
+  wpId           Int?      @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([sortOrder])
+}
+
+model Partner {
+  id        String   @id @default(cuid())
+  name      String
+  sortOrder Int      @default(0)
+  logoId    String?
+  logo      Media?   @relation(fields: [logoId], references: [id])
+  wpId      Int?     @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+model BlogPost {
+  id              String    @id @default(cuid())
+  slug            String
+  language        Language
+  title           String
+  excerpt         String?
+  content         String?
+  publishedAt     DateTime?
+  featuredImageId String?
+  featuredImage   Media?    @relation(fields: [featuredImageId], references: [id])
+  wpId            Int?      @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([slug, language])
+  @@index([language, publishedAt])
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  titleDe   String?
+  titleEn   String?
+  contentDe String?
+  contentEn String?
+  wpId      Int?     @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSection {
+  id        String   @id @default(cuid())
+  pageKey   String
+  sectionKey String
+  data      Json
+  imageId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([pageKey, sectionKey])
+}
+
+model SiteSettings {
+  id              String  @id @default("default")
+  siteName        String  @default("FeBoKo Consulting")
+  headerImageId   String?
+  headerImage     Media?  @relation("HeaderImage", fields: [headerImageId], references: [id])
+  contactEmail    String?
+  contactPhone    String?
+  linkedinUrl     String?
+  updatedAt       DateTime @updatedAt
+}
+
+model NavMenuItem {
+  id        String   @id @default(cuid())
+  menuKey   String
+  labelDe   String?
+  labelEn   String?
+  href      String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([menuKey, sortOrder])
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  language  Language @default(de)
+  createdAt DateTime @default(now())
+}

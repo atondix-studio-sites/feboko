@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: feboko
+      POSTGRES_PASSWORD: feboko
+      POSTGRES_DB: feboko
+    ports:
+      - "5433:5432"
+    volumes:
+      - feboko_pg_data:/var/lib/postgresql/data
+
+volumes:
+  feboko_pg_data:

@@ -1,0 +1,87 @@
+/* ===== 404 PAGE STYLES ===== */
+@import url('./variables-shared.css');
+
+:root {
+  --page-404-padding: 80px 0;
+  --page-404-padding-tablet: 48px 0;
+  --page-404-padding-mobile: 48px 0;
+}
+
+.page-404 {
+  padding: var(--page-404-padding);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-primary);
+}
+
+.page-404 .page-404-hero {
+  text-align: center;
+  padding: var(--space-48) var(--space-24);
+  border-radius: var(--border-radius-12);
+}
+
+.page-404 .page-title {
+  font-family: var(--font-oswald);
+  font-size: var(--text-size-64);
+  line-height: var(--line-height-1);
+  margin: 0 0 var(--space-16);
+  color: var(--color-primary);
+}
+
+.page-404 .page-subtitle {
+  font-family: var(--font-lato);
+  font-size: var(--text-size-18);
+  color: var(--color-primary-lighter);
+  margin-bottom: var(--space-24);
+}
+
+.page-404 .page-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-36);
+}
+
+.page-404 .page-actions .search-form {
+  max-width: 420px;
+  width: 100%;
+}
+
+.page-404 .recent-posts h2 {
+  font-size: var(--text-size-20);
+  margin-bottom: var(--space-12);
+  color: var(--color-primary);
+}
+
+.page-404 .recent-posts ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-12);
+}
+
+.page-404 .recent-posts a {
+  color: #3f4360;
+  text-decoration: none;
+}
+
+.page-404 .recent-posts a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .page-404 {
+    padding: var(--page-404-padding-mobile);
+  }
+
+  .page-404 .page-title {
+    font-size: var(--text-size-36);
+  }
+
+  .page-404 .recent-posts ul {
+    grid-template-columns: 1fr;
+  }
+}

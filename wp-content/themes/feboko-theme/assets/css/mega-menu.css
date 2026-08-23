@@ -1,0 +1,434 @@
+/* ===== MEGA MENU — SERVICES ===== */
+@import url('./variables-shared.css');
+
+/*
+ * Architecture:
+ * .menu-item-has-mega-menu  — the Services <li>, added via nav_menu_css_class filter
+ * .mega-menu-panel          — full-width dropdown panel, child of that <li>
+ * .mega-menu-inner          — centered content wrapper (uses .container max-width)
+ * .mega-menu-categories     — left column: category links
+ * .mega-menu-subservices    — right column: subservice lists
+ *
+ * Desktop: absolute dropdown triggered by hover + keyboard focus
+ * Mobile (≤768px): static accordion inside the slide-in nav panel
+ */
+
+
+/* ===== DESKTOP: Services <li> layout ===== */
+
+/* The Services <li> needs position:relative for the panel to anchor against */
+.main-navigation .menu-item-has-mega-menu {
+  position: static;
+  /* We anchor to the full header width, not the <li> */
+}
+
+/* Hide the toggle button on desktop — keyboard opens via focus on the <a> instead */
+.mega-menu-toggle {
+  display: none;
+}
+
+
+/* ===== DESKTOP: Panel ===== */
+
+.mega-menu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: var(--shadow-lg);
+  border-top: 2px solid var(--color-bg-section-light);
+  z-index: calc(var(--z-header) - 1);
+
+  /* Hidden state */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear 0.22s;
+}
+
+/* Open state — add class via JS, also support CSS hover as progressive enhancement */
+.main-navigation .menu-item-has-mega-menu:hover .mega-menu-panel,
+.main-navigation .menu-item-has-mega-menu.mega-menu-open .mega-menu-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0s linear 0s;
+}
+
+
+/* ===== DESKTOP: Inner layout ===== */
+
+.mega-menu-inner {
+  display: grid;
+  grid-template-columns: 260px 1fr 280px;
+  gap: var(--space-48);
+  padding-top: var(--space-32);
+  padding-bottom: var(--space-32);
+  /* min-height removed to allow content-driven height */
+}
+
+
+/* ===== DESKTOP: Categories column ===== */
+
+.mega-menu-categories {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-right: 1px solid var(--color-bg-section-light);
+  padding-right: var(--space-24);
+}
+
+.mega-menu-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-12) var(--space-16);
+  font-family: var(--font-outfit);
+  font-size: var(--text-size-18);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+  border-right: 3px solid transparent;
+  text-decoration: none;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+  line-height: var(--line-height-1-2);
+  margin-right: -1px;
+  /* Overlap the parent border */
+}
+
+.mega-menu-category:hover {
+  color: var(--color-primary);
+  background-color: rgba(39, 42, 61, 0.03);
+}
+
+.mega-menu-category.is-active {
+  color: var(--color-primary);
+  border-right-color: var(--color-primary-accent);
+  background-color: var(--color-bg-light);
+}
+
+.mega-menu-category-arrow {
+  font-size: 14px;
+  opacity: 0.5;
+  margin-left: var(--space-8);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.mega-menu-category.is-active .mega-menu-category-arrow,
+.mega-menu-category:hover .mega-menu-category-arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+.mega-menu-all-link {
+  display: block;
+  margin-top: var(--space-16);
+  padding: var(--space-8) var(--space-12);
+  font-family: var(--font-lato);
+  font-size: var(--text-size-14);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-primary-accent);
+  text-decoration: none;
+  border-top: 1px solid var(--color-bg-section-light);
+  padding-top: var(--space-16);
+  transition: color var(--transition-fast);
+}
+
+/* Mobile sub-lists are not visible on desktop */
+.mega-menu-category-mobile-sub {
+  display: none;
+}
+
+.mega-menu-all-link:hover {
+  color: var(--color-primary);
+}
+
+
+/* ===== DESKTOP: Subservices column ===== */
+
+.mega-menu-subservices {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.mega-menu-subservice-list {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.mega-menu-subservice-list.is-visible {
+  display: flex;
+}
+
+.mega-menu-overview-link {
+  display: inline-block;
+  font-family: var(--font-outfit);
+  font-size: var(--text-size-14);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-primary-accent);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-0-2);
+  margin-bottom: var(--space-12);
+  transition: color var(--transition-fast);
+}
+
+.mega-menu-overview-link:hover {
+  color: var(--color-primary);
+}
+
+.mega-menu-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.mega-menu-subservice-list li {
+  break-inside: avoid;
+  margin-bottom: var(--space-4);
+}
+
+.mega-menu-subservice-list a {
+  display: block;
+  padding: var(--space-8) 0;
+  font-family: var(--font-lato);
+  font-size: var(--text-size-16);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  line-height: var(--line-height-1-6);
+}
+
+.mega-menu-subservice-list a:hover {
+  color: var(--color-primary-accent);
+}
+
+.mega-menu-subservice-empty a {
+  color: var(--color-text-muted);
+}
+
+/* ===== DESKTOP: Advantage column ===== */
+
+.mega-menu-advantage {
+  border-left: 1px solid var(--color-bg-section-light);
+  padding-left: var(--space-32);
+}
+
+.mega-menu-advantage-title {
+  font-family: var(--font-outfit);
+  font-size: var(--text-size-18);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-16);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-0-2);
+}
+
+.mega-menu-advantage-content {
+  font-family: var(--font-lato);
+  font-size: var(--text-size-14);
+  color: var(--color-text-tertiary);
+  line-height: var(--line-height-1-6);
+}
+
+.mega-menu-advantage-cta {
+  display: inline-block;
+  margin-top: var(--space-24);
+  padding: var(--space-10) var(--space-20);
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
+  font-family: var(--font-outfit);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  border-radius: var(--border-radius-4);
+  transition: background-color var(--transition-fast);
+}
+
+.mega-menu-advantage-cta:hover {
+  background-color: var(--color-primary-light);
+}
+
+
+/* ===== HEADER: Ensure sticky header has overflow visible for panel ===== */
+/*
+ * The panel is absolutely positioned relative to the header.
+ * The site-header must not clip it.
+ */
+.site-header {
+  overflow: visible !important;
+}
+
+.site-header>.container {
+  overflow: visible;
+}
+
+
+/* ===== MOBILE (≤768px): Accordion inside slide-in nav ===== */
+
+@media (max-width: 768px) {
+
+  /* Show the toggle button instead of a plain link for keyboard toggle */
+  .mega-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--color-text-lightest);
+    font-size: var(--text-size-20);
+    font-family: var(--font-lato);
+    padding: var(--space-12) 0;
+    cursor: pointer;
+    letter-spacing: var(--letter-spacing-0-2);
+    text-align: left;
+  }
+
+  .mega-menu-toggle-icon {
+    font-size: 18px;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    margin-left: var(--space-8);
+  }
+
+  .mega-menu-toggle[aria-expanded="true"] .mega-menu-toggle-icon {
+    transform: rotate(90deg);
+  }
+
+  /* Hide the Services <a> on mobile — toggle button replaces it.
+     Increased specificity to override generic responsive.css link styles. */
+  .nav-container .menu-item-has-mega-menu>a.mega-menu-trigger-link {
+    display: none !important;
+  }
+
+  /* Reset desktop panel styles */
+  .mega-menu-panel {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    box-shadow: none;
+    border-top: none;
+    background: transparent;
+
+    /* Hidden by default — revealed by .is-expanded class */
+    display: none;
+    z-index: auto;
+  }
+
+  .mega-menu-panel.is-expanded {
+    display: block;
+  }
+
+  /* Reset inner layout — stack vertically */
+  .mega-menu-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    min-height: 0;
+  }
+
+  /* Categories: vertical list, dark background styles */
+  .mega-menu-categories {
+    width: 100%;
+    border-right: none;
+    border-bottom: none;
+    padding-right: 0;
+    margin-right: 0;
+    gap: 0;
+  }
+
+  .mega-menu-category {
+    color: var(--color-text-lightest);
+    font-size: var(--text-size-18);
+    padding: var(--space-8) 0;
+    border-left: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0;
+    background: transparent;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+
+  .mega-menu-category:hover,
+  .mega-menu-category.is-active {
+    background: transparent;
+    color: var(--color-accent-orange);
+    border-left: none;
+    font-weight: var(--weight-normal);
+  }
+
+  .mega-menu-all-link {
+    color: var(--color-primary-accent);
+    font-size: var(--text-size-16);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin: var(--space-12) 0 var(--space-16);
+    padding: var(--space-12) 0;
+  }
+
+  /* On mobile: categories don't control a separate subservice column.
+   * Instead subservices appear inline below the category link.
+   * We use a nested structure per category. */
+  .mega-menu-subservices,
+  .mega-menu-advantage {
+    display: none;
+    /* Desktop columns are hidden on mobile or handled inline */
+  }
+
+  /* Mobile inline subservices are rendered as a nested <ul> inside
+   * each .mega-menu-category's <li> wrapper — handled in PHP template
+   * via the .mega-menu-category-mobile-sub structure */
+  .mega-menu-category-mobile-sub {
+    list-style: none;
+    padding: 0 0 var(--space-8) var(--space-16);
+    margin: 0;
+    display: none;
+  }
+
+  .mega-menu-category-wrapper.is-sub-expanded .mega-menu-category-mobile-sub {
+    display: block;
+  }
+
+  .mega-menu-category-mobile-sub li a {
+    display: block;
+    color: var(--color-text-lighter);
+    font-size: var(--text-size-14);
+    padding: var(--space-8) 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    text-decoration: none;
+    letter-spacing: var(--letter-spacing-0-18);
+  }
+
+  .mega-menu-category-mobile-sub li a:hover {
+    color: var(--color-accent-orange);
+  }
+
+  .mega-menu-category.has-sub .mega-menu-category-arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .mega-menu-category-wrapper.is-sub-expanded .mega-menu-category-arrow {
+    transform: rotate(90deg);
+  }
+}

@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /author/
+Disallow: /category/
+Disallow: /datenschutz/
+Disallow: /nutzungsbedingungen/
+Disallow: /xmlrpc.php
+
+Sitemap: https://feboko.com/wp-sitemap.xml

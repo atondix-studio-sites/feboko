@@ -1,0 +1,213 @@
+/* ===== CONTENT SECTIONS & LAYOUTS ===== */
+@import url('./variables-shared.css');
+
+/* 2 Column Flex Layout */
+.column-flex-2 {
+  display: flex;
+  gap: var(--space-60);
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .column-flex-2 {
+    flex-direction: column;
+  }
+}
+
+/* Column Base */
+.column-flex-2>.column1,
+.column-flex-2>.column2 {
+  flex: 1 1 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: min-content;
+  overflow: visible;
+}
+
+/* Text column */
+.column-flex-2>.text {
+  justify-content: flex-start;
+  padding: var(--space-24) 0;
+}
+
+/* Image column */
+.column-flex-2 img {
+  width: 100%;
+  height: 0;
+  min-height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.content-section img {
+  border-radius: var(--border-radius-6);
+}
+
+/* Modifier: About Layout (wider image, specific aspect ratio) */
+.column-flex-2.layout-about {
+  align-items: center;
+}
+
+.column-flex-2.layout-about > .column1 {
+  flex: 1.2;
+}
+
+.column-flex-2.layout-about > .column2 {
+  flex: 1;
+}
+
+.column-flex-2.layout-about img {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Image Header */
+.image-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-64);
+}
+
+.image-header .column1,
+.image-header .column2 {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.section-header:not(.no-margin) {
+  margin-bottom: var(--space-64);
+}
+
+.section-header .column1 {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header .column2 {
+  width: 40%;
+  display: flex;
+  gap: var(--space-24);
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Border Box Component */
+.border-box {
+  width: 100%;
+  padding: var(--space-32) var(--space-44);
+  border: var(--border-2px) solid var(--color-border-dark);
+  border-radius: var(--border-radius-4);
+  transition: all var(--transition-base);
+}
+
+.border-box h3 {
+  font-size: var(--text-size-32);
+  margin-bottom: var(--space-24);
+}
+
+.border-box ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.border-box ul li {
+  position: relative;
+  padding-left: var(--space-32);
+}
+
+.border-box ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--space-4);
+  width: 22px;
+  height: 22px;
+  background-color: var(--color-border-dark);
+  transition: background-color var(--transition-base) 0s;
+}
+
+.border-box ul li:nth-child(1)::before {
+  transition-delay: 0.2s;
+}
+
+.border-box ul li:nth-child(2)::before {
+  transition-delay: 0.4s;
+}
+
+.border-box ul li:nth-child(3)::before {
+  transition-delay: 0.6s;
+}
+
+.border-box:hover ul li::before {
+  background-color: var(--color-primary-light);
+}
+
+.border-box:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  background-color: #ffffff05;
+}
+
+/* Content Section */
+.content-section .btn {
+  margin-top: var(--space-32);
+}
+
+/* Section Typography */
+.section-subtitle {
+  font-weight: var(--weight-bold);
+  font-size: var(--text-size-20);
+  color: var(--color-primary-light);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-0-2);
+  margin-bottom: var(--space-10);
+}
+
+.section-title {
+  font-size: var(--text-size-54);
+  line-height: var(--line-height-1-5);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-20);
+}
+
+.section-description {
+  font-size: var(--text-size-18);
+  line-height: var(--line-height-1-5);
+  letter-spacing: var(--letter-spacing-0-18);
+  text-align: justify;
+}
+
+.section-footnote {
+  text-align: center;
+  margin-top: var(--space-48);
+}
+
+/* Background Sections */
+.bg-primary-very-light {
+  background-color: var(--color-bg-section-light);
+}
+
+.bg-primary-light {
+  background-color: var(--color-bg-section-medium);
+}
+
+/* Section Margin */
+.section-margin {
+  margin-top: var(--space-60);
+}

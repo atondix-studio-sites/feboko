@@ -1,0 +1,18 @@
+<FilesMatch "\.php$">
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order deny,allow
+Deny from all
+</IfModule>
+</FilesMatch>
+<FilesMatch "\.l10n\.php$">
+<IfModule mod_authz_core.c>
+Require all granted
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order deny,allow
+Allow from all
+</IfModule>
+</FilesMatch>

@@ -1,0 +1,1033 @@
+/* ===== PAGE SPECIFIC STYLES ===== */
+@import url('./variables-shared.css');
+
+/* SINGLE SERVICE PAGE */
+.single-service .service-hero {
+  margin-top: var(--space-80);
+  margin-bottom: var(--space-40);
+}
+
+.page-title {
+  font-size: var(--text-size-90);
+  margin-bottom: var(--space-30);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  font-size: var(--text-size-14);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-40);
+}
+
+.breadcrumbs span {
+  margin: 0 var(--space-6);
+}
+
+.breadcrumbs a.current {
+  font-weight: var(--weight-semi-bold);
+}
+
+/* Service Layout */
+.service-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--space-40);
+}
+
+/* Service Sidebar */
+.service-sidebar h3 {
+  font-size: var(--text-size-18);
+  margin-bottom: var(--space-16);
+}
+
+.service-sidebar a {
+  display: block;
+  margin-bottom: var(--space-10);
+  font-size: var(--text-size-16);
+}
+
+.service-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.service-sidebar a.current {
+  font-weight: var(--weight-semi-bold);
+}
+
+.service-sidebar {
+  max-width: 220px;
+  padding-right: var(--space-30);
+  border-right: 1px solid black;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+/* Table of Contents */
+.toc-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.toc-nav .toc-link {
+  display: block;
+  padding: var(--space-6) 0;
+  font-size: var(--text-size-14);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  padding-left: var(--space-10);
+  transition: all var(--transition-fast);
+  line-height: var(--line-height-normal, 1.4);
+}
+
+.toc-nav .toc-link:hover {
+  color: var(--color-text-primary);
+  border-left-color: var(--color-text-muted);
+}
+
+.toc-nav .toc-link.active {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semi-bold);
+  border-left-color: var(--color-primary, #000);
+}
+
+.toc-nav .toc-h3 {
+  padding-left: var(--space-20);
+  font-size: var(--text-size-13, 13px);
+}
+
+.toc-nav .toc-h4 {
+  padding-left: var(--space-30);
+  font-size: var(--text-size-12);
+}
+
+/* Service Intro */
+.service-intro {
+  display: flex;
+  gap: var(--space-40);
+  align-items: center;
+  margin-bottom: var(--space-40);
+}
+
+.service-intro h2 {
+  font-size: var(--text-size-54);
+}
+
+.service-intro .lead {
+  font-size: var(--text-size-22);
+}
+
+/* Intro Image */
+.intro-image {
+  width: var(--size-400);
+  height: var(--size-260);
+  flex-shrink: 0;
+}
+
+.intro-image img {
+  width: var(--size-400);
+  height: var(--size-260);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Intro Image Large */
+.intro-image-large {
+  width: 100%;
+  height: var(--size-400);
+  flex-shrink: 0;
+}
+
+.intro-image-large img {
+  width: 100%;
+  height: var(--size-400);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Service Body */
+.service-body {
+  font-size: var(--text-size-18);
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.service-body h2 {
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-12);
+  /* Offset for the sticky header when jumping to a mega-menu anchor. */
+  scroll-margin-top: 120px;
+}
+
+.service-body h3 {
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-12);
+  /* Offset for the sticky header when jumping to a mega-menu anchor. */
+  scroll-margin-top: 120px;
+}
+
+.service-body h4 {
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-12);
+}
+
+.service-body h5 {
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-12);
+}
+
+.service-body h6 {
+  margin-top: var(--space-24);
+  margin-bottom: var(--space-12);
+}
+
+.service-body ol,
+.service-body ul {
+  padding-left: var(--space-24);
+  margin-bottom: var(--space-12);
+}
+
+/* Next Service Section */
+.service-next {
+  margin-top: var(--space-80);
+}
+
+.service-next h2 {
+  font-size: var(--text-size-54);
+  margin-bottom: var(--space-30);
+}
+
+/* Related posts: always 2 items — fill full width instead of leaving empty tracks */
+.service-next .blog-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+/* Service Carousel */
+.service-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1410px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: 0 var(--space-60);
+}
+
+.service-carousel-viewport {
+  overflow: hidden;
+  padding: 0 var(--space-20) var(--space-60);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25px, black calc(100% - 25px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 25px, black calc(100% - 25px), transparent 100%);
+}
+
+.service-carousel-track {
+  display: flex;
+  gap: var(--space-40);
+  transition: transform 0.4s ease;
+}
+
+.service-carousel-track .service-grid-card {
+  flex: 0 0 calc((100% - var(--space-40) * 2) / 3);
+  min-width: 0;
+}
+
+.service-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-primary);
+  background: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast, 0.2s);
+  flex-shrink: 0;
+}
+
+.service-carousel-arrow--left {
+  left: 10px;
+}
+
+.service-carousel-arrow--right {
+  right: 10px;
+}
+
+.service-carousel-arrow:hover {
+  background: var(--color-primary);
+  color: var(--color-text-light);
+  border-color: var(--color-primary);
+  transform: translateY(-55%) scale(1.1);
+}
+
+.service-carousel-arrow--disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Service Grid (archive-service page) */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-40);
+}
+
+.service-grid-card img {
+  width: 100%;
+  height: var(--size-244);
+  object-fit: cover;
+  display: block;
+}
+
+.service-grid-card h2 {
+  margin: var(--space-20) 0 var(--space-16);
+}
+
+.service-grid-card p {
+  margin-bottom: var(--space-20);
+}
+
+/* Blog Grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-40);
+}
+
+/* TEAM GRID */
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-20);
+  align-items: start;
+}
+
+.team-grid-card {
+  display: flex;
+  gap: var(--space-12);
+  border: var(--border-2px) solid var(--color-border-lightest);
+  border-radius: var(--border-radius-6);
+  overflow: hidden;
+  background-color: var(--color-bg-primary);
+  /* Avoid transitioning flex/width: animating the card width while the inner
+     text reflows causes the .about paragraph to temporarily wrap into many
+     more lines at the narrower intermediate width, overshooting the final
+     height. The width snaps to the final value, height grows monotonically. */
+  transition:
+    box-shadow var(--transition-base),
+    border-color var(--transition-base),
+    transform var(--transition-base);
+  align-items: stretch;
+  position: relative;
+  flex: 1 1 25%;
+  height: 100%;
+}
+
+.team-grid-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.team-grid-card .team-content {
+  padding: var(--space-32) var(--space-24);
+  transition: all var(--transition-base);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.team-grid-card .team-header {
+  display: flex;
+}
+
+.team-grid-card .team-photo {
+  width: 54px;
+  height: 54px;
+  border-radius: 100%;
+  object-fit: cover;
+  display: block;
+  /* Snap (no transition) so the team-header width does not progressively
+     narrow during activation, which would force the .about text to reflow
+     into more lines and temporarily push the card height above its final. */
+  margin-right: var(--space-8);
+}
+
+.team-grid-card h2 {
+  margin: var(--space-20) 0 var(--space-16);
+}
+
+.team-grid-card .contact {
+  text-align: right;
+  font-size: var(--text-size-12);
+  color: var(--color-text-muted);
+  display: none;
+}
+
+.team-grid-card .position {
+  font-size: var(--text-size-14);
+  color: var(--color-text-muted);
+}
+
+.team-grid-card .about {
+  display: -webkit-box;
+  line-clamp: 4;
+  -webkit-line-clamp: 4;
+  box-orient: vertical;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text-muted);
+  /* The single property that drives the smooth height change of the card.
+     All other layout-affecting properties snap instantly so nothing else
+     competes with this transition or pushes the height past its final. */
+  max-height: 7em;
+  transition: max-height var(--transition-base) ease-in-out;
+}
+
+.team-grid-card .read-more {
+  margin-top: auto;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-size-18);
+  color: var(--color-text-primary);
+}
+
+.team-grid-card .read-more::after {
+  content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>');
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: var(--space-6);
+  padding-bottom: var(--space-6);
+  vertical-align: middle;
+}
+
+.team-grid-card .read-more:hover {
+  color: var(--color-primary-light);
+  transform: translateY(-2px);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Active Team Card State */
+.team-grid-card.active .read-more {
+  display: none;
+}
+
+.team-grid-card.active {
+  flex: 1 0 45%;
+  z-index: 2;
+  animation: popUp 0.3s ease-out;
+  transform: translateY(-5px);
+}
+
+.team-grid-card.active .contact {
+  margin-left: auto;
+  display: block;
+}
+
+.team-grid-card.active .about {
+  display: block;
+  /* overflow: hidden + a finite max-height lets max-height drive the
+     smooth height growth. The cap is high enough to fit any realistic
+     about-text length so real content is never clipped. */
+  overflow: hidden;
+  line-clamp: unset;
+  -webkit-line-clamp: unset;
+  max-height: 30em;
+}
+
+.team-grid-card.active .team-photo {
+  width: 0;
+  margin-right: 0;
+}
+
+.team-grid-card .team-photo-large-wrapper {
+  flex: 1 1 270px;
+  overflow: hidden;
+  border-radius: var(--border-radius-6);
+  display: none;
+  flex: 0 0 0;
+}
+
+.team-grid-card .team-photo-large {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.team-grid-card.active .team-photo-large-wrapper {
+  display: block;
+  flex: 1 1 270px;
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 0.85;
+    transform: translateY(0) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1);
+  }
+}
+
+/* 404 PAGE STYLES */
+.page-404 {
+  padding: var(--space-80) 0;
+  background-color: var(--color-bg-light);
+  color: var(--color-text-primary);
+}
+
+.page-404 .page-404-hero {
+  text-align: center;
+  padding: var(--space-48) var(--space-24);
+  border-radius: var(--border-radius-12);
+}
+
+.page-404 .page-title {
+  font-family: var(--font-oswald);
+  font-size: var(--text-size-64);
+  line-height: var(--line-height-1);
+  margin: 0 0 var(--space-16);
+  color: var(--color-primary);
+}
+
+.page-404 .page-subtitle {
+  font-family: var(--font-lato);
+  font-size: var(--text-size-18);
+  color: var(--color-primary-lighter);
+  margin-bottom: var(--space-24);
+}
+
+.page-404 .page-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-36);
+}
+
+.page-404 .page-actions .search-form {
+  max-width: 420px;
+  width: 100%;
+}
+
+.page-404 .recent-posts h2 {
+  font-size: var(--text-size-20);
+  margin-bottom: var(--space-12);
+  color: var(--color-primary);
+}
+
+.page-404 .recent-posts ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-12);
+}
+
+.page-404 .recent-posts a {
+  color: #3f4360;
+  text-decoration: none;
+}
+
+.page-404 .recent-posts a:hover {
+  text-decoration: underline;
+}
+
+/* ===== CAREER / JOB LISTINGS PAGE ===== */
+
+/* ── Hero ── */
+.career-page .career-hero {
+  margin-top: var(--space-80);
+  margin-bottom: var(--space-40);
+}
+
+.career-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--text-size-14);
+  font-weight: var(--weight-semi-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-orange);
+  margin-bottom: var(--space-16);
+}
+
+.career-hero__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-orange);
+  animation: heroFlicker 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes heroFlicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.career-hero__title {
+  margin-bottom: var(--space-20);
+}
+
+.career-hero__lead {
+  font-size: var(--text-size-22);
+  color: var(--color-text-muted);
+  max-width: 620px;
+  line-height: var(--line-height-1-6);
+}
+
+/* ── Stats strip ── */
+.career-stats-strip {
+  background: var(--color-bg-dark);
+  padding: var(--space-40) 0;
+  margin-bottom: 0;
+}
+
+.career-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.career-stat-item {
+  flex: 1;
+  text-align: center;
+  padding: var(--space-12) var(--space-20);
+}
+
+.career-stat-sep {
+  width: 1px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.career-stat-item__num {
+  display: block;
+  font-family: var(--font-oswald);
+  font-size: var(--text-size-54);
+  line-height: var(--line-height-1);
+  color: var(--color-text-lightest);
+  margin-bottom: var(--space-6);
+}
+
+.career-stat-item__lbl {
+  display: block;
+  font-size: var(--text-size-12);
+  color: var(--color-text-light);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Listings head  ── */
+.career-listings-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-24);
+  margin-bottom: var(--space-40);
+  flex-wrap: wrap;
+}
+
+.career-listings-sub {
+  font-size: var(--text-size-14);
+  color: var(--color-text-muted);
+  margin-top: var(--space-6);
+}
+
+.career-listings-cta {
+  flex-shrink: 0;
+}
+
+/* ── Job Grid (team-showcase style) ── */
+.job-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-32);
+  align-items: start;
+}
+
+/* ── Single job card ── */
+.job-grid-card {
+  display: flex;
+  gap: var(--space-12);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: var(--border-radius-24);
+  overflow: hidden;
+  background-color: var(--color-bg-primary);
+  transition: all var(--transition-base);
+  align-items: stretch;
+  position: relative;
+  flex: 1 1 30%;
+  min-width: 280px;
+  box-shadow:
+    0 10px 30px -10px rgba(0, 0, 0, 0.08),
+    0 4px 6px -2px rgba(0, 0, 0, 0.02);
+}
+
+.job-grid-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow:
+    0 20px 40px -15px rgba(0, 0, 0, 0.12),
+    0 8px 12px -4px rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* Card content area */
+.job-grid-card .job-card-content {
+  padding: var(--space-40) var(--space-32);
+  transition: all var(--transition-base);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+/* Header: tags + title */
+.job-grid-card .job-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.job-grid-card .job-card__meta {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.job-grid-card h3 {
+  font-family: var(--font-oswald);
+  font-size: var(--text-size-28);
+  font-weight: var(--weight-normal);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: var(--line-height-1-2);
+}
+
+/* Info pills */
+.job-grid-card .job-card__info-row {
+  display: flex;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+/* Summary (clamped when collapsed) */
+.job-grid-card .job-summary {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  box-orient: vertical;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text-muted);
+  font-size: var(--text-size-16);
+  line-height: var(--line-height-1-6);
+  transition: all 0.5s ease-in-out;
+}
+
+/* Details (hidden when collapsed) */
+.job-grid-card .job-card-details {
+  display: none;
+}
+
+/* Read More link */
+.job-grid-card .read-more {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-size-18);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.job-grid-card .read-more::after {
+  content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>');
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: var(--space-8);
+  transition: transform var(--transition-base);
+  vertical-align: middle;
+}
+
+.job-grid-card .read-more:hover {
+  color: var(--color-primary-light);
+}
+
+.job-grid-card .read-more:hover::after {
+  transform: translateX(6px);
+}
+
+/* ===== Active job card state ===== */
+.job-grid-card.active {
+  flex: 1 0 100%;
+  z-index: 2;
+  animation: jobPopUp 0.5s ease;
+}
+
+.job-grid-card.active .read-more {
+  display: none;
+}
+
+/* Close button (hidden by default, lives inside .job-card__apply) */
+.job-close-btn {
+  display: none;
+}
+
+.job-grid-card.active .job-close-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  font-size: var(--text-size-16);
+  font-weight: var(--weight-semi-bold);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-right: auto;
+}
+
+.job-grid-card.active .job-close-btn::before {
+  content: '\00d7';
+  font-size: var(--text-size-22);
+  line-height: 1;
+  transition: transform var(--transition-base);
+}
+
+.job-grid-card.active .job-close-btn:hover {
+  color: var(--color-primary);
+}
+
+.job-grid-card.active .job-close-btn:hover::before {
+  transform: rotate(90deg);
+}
+
+.job-grid-card.active .job-summary {
+  display: block;
+  overflow: visible;
+  line-clamp: unset;
+  -webkit-line-clamp: unset;
+  max-height: none;
+}
+
+.job-grid-card.active .job-card-details {
+  display: block;
+}
+
+@keyframes jobPopUp {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Tags */
+.job-tag {
+  display: inline-block;
+  padding: 5px var(--space-16);
+  border-radius: var(--border-radius-24);
+  font-size: var(--text-size-12);
+  font-weight: var(--weight-semi-bold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.job-tag--dept {
+  background: var(--color-bg-section-light);
+  color: var(--color-primary);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.job-tag--type {
+  background: rgba(255, 133, 12, 0.08);
+  color: var(--color-accent-orange);
+  border: 1px solid rgba(255, 133, 12, 0.15);
+}
+
+/* Info pills */
+.job-info-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--text-size-14);
+  color: var(--color-text-muted);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 4px 12px;
+  border-radius: var(--border-radius-16);
+  transition: background var(--transition-fast);
+}
+
+.job-info-pill:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.job-info-pill svg {
+  flex-shrink: 0;
+  color: var(--color-primary-accent);
+  opacity: 0.8;
+}
+
+/* Section headings & richtext inside expanded cards */
+.job-card__section {
+  margin-bottom: var(--space-32);
+}
+
+.job-card__section-heading {
+  font-family: var(--font-oswald);
+  font-size: var(--text-size-20);
+  font-weight: var(--weight-normal);
+  color: var(--color-primary);
+  margin-bottom: var(--space-16);
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+}
+
+.job-card__section-heading::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  background: var(--color-accent-orange);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.job-card__richtext {
+  font-size: var(--text-size-16);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-1-6);
+}
+
+.job-card__richtext ul,
+.job-card__richtext ol {
+  padding-left: var(--space-20);
+  margin-top: var(--space-8);
+}
+
+.job-card__richtext li {
+  margin-bottom: var(--space-8);
+}
+
+/* ── Apply footer ── */
+.job-card__apply {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+  padding-top: var(--space-32);
+  border-top: var(--border-1px) solid var(--color-border-lightest);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.job-card__apply-note {
+  font-size: var(--text-size-14);
+  color: var(--color-text-muted);
+}
+
+.job-card__apply-note a {
+  color: var(--color-primary-light);
+  text-decoration: underline;
+}
+
+/* ── Empty state ── */
+.career-empty {
+  text-align: center;
+  padding: var(--space-80) var(--space-24);
+}
+
+.career-empty__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-24);
+  color: var(--color-primary-accent);
+}
+
+/* ── Dark CTA strip ── */
+.career-cta-strip {
+  background: var(--color-bg-dark);
+  padding: var(--space-80) 0;
+}
+
+.career-cta-strip__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-40);
+  flex-wrap: wrap;
+}
+
+.career-cta-strip__title {
+  font-family: var(--font-oswald);
+  font-size: var(--text-size-36);
+  font-weight: var(--weight-normal);
+  color: var(--color-text-lightest);
+  margin-bottom: var(--space-12);
+}
+
+.career-cta-strip__text {
+  font-size: var(--text-size-16);
+  color: var(--color-text-light);
+  max-width: 480px;
+  line-height: var(--line-height-1-6);
+}
+
+.career-cta-strip__btn {
+  display: inline-block;
+  padding: var(--space-16) var(--space-40);
+  border: 2px solid var(--color-text-lightest);
+  color: var(--color-text-lightest);
+  font-family: var(--font-lato);
+  font-size: var(--text-size-16);
+  font-weight: var(--weight-semi-bold);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.career-cta-strip__btn:hover {
+  background: var(--color-text-lightest);
+  color: var(--color-bg-dark);
+}

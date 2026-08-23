@@ -1,0 +1,17 @@
+@import url("../styles/variables-shared.css");
+@import url("../styles/header.css");
+@import url("../styles/mega-menu.css");
+@import url("../styles/hero.css");
+@import url("../styles/sections.css");
+@import url("../styles/components.css");
+@import url("../styles/pages.css");
+@import url("../styles/responsive.css");
+@import url("../styles/style.css");
+@import url("../styles/cf7-custom.css");
+
+.border-box ul li::before {
+  -webkit-mask: url("/icons/check-circle.svg") no-repeat center;
+  mask: url("/icons/check-circle.svg") no-repeat center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}

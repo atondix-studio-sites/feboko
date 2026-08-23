@@ -1,0 +1,343 @@
+/*
+Theme Name: FeBoKo Consulting
+Theme URI: https://feboko.com
+Author: FeBoKo Consulting
+Author URI: https://feboko.com
+Description: Professional consulting theme for FeBoKo Consulting GbR - Expert consulting for market entry in India
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: feboko
+Tags: business, consulting, professional, multilingual
+*/
+
+/*
+ * Stylesheet partials (variables-shared, header, mega-menu, hero, sections,
+ * components, pages, responsive) are enqueued individually in functions.php
+ * (feboko_scripts) so they load in parallel instead of via render-blocking
+ * @import chains.
+ */
+
+/* ===== FONT FACES ===== */
+@font-face {
+  font-family: "Oswald";
+  src: url("/fonts/Oswald-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/Lato-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/Lato-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-lato);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-1-5);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-oswald);
+  font-weight: var(--weight-normal);
+}
+
+/* ===== CONTAINER & LAYOUT ===== */
+.container {
+  max-width: var(--container-max);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-20);
+}
+
+.container-small {
+  max-width: var(--container-small);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-20);
+}
+
+.content {
+  padding-bottom: var(--space-80);
+}
+
+.content:not(.no-padding-top) {
+  padding-top: var(--space-80);
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--color-bg-dark);
+  color: var(--color-text-lightest);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+.footer-main {
+  padding: var(--space-80) var(--space-60) 0;
+  max-width: var(--container-max);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-contact {
+  max-width: 600px;
+}
+
+.footer-contact-block {
+  margin-bottom: 17px;
+}
+
+.footer-contact-block h4 {
+  font-size: var(--text-size-20);
+  color: var(--color-text-lightest);
+  line-height: var(--line-height-1-6);
+  margin-bottom: var(--space-4);
+}
+
+.footer-contact-block p {
+  font-size: var(--text-size-16);
+  color: var(--color-text-light);
+  line-height: var(--line-height-1-45);
+  margin: 0;
+}
+
+.footer-contact-block a {
+  color: var(--color-text-light);
+  text-decoration: underline;
+}
+
+.footer-contact-block a:hover {
+  color: var(--color-text-lightest);
+}
+
+.footer-column {
+  min-width: 155px;
+}
+
+.footer-column h4 {
+  font-family: var(--font-lato);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-size-18);
+  letter-spacing: var(--letter-spacing-0-18);
+  line-height: var(--line-height-1-3);
+  margin-bottom: var(--space-32);
+}
+
+.footer-column ul {
+  list-style: none;
+}
+
+.footer-column ul li {
+  margin-bottom: 18px;
+}
+
+.footer-column ul li a {
+  font-size: var(--text-size-18);
+  line-height: var(--line-height-1-5);
+  letter-spacing: var(--letter-spacing-0-18);
+  color: var(--color-text-lighter);
+  transition: color var(--transition-base);
+}
+
+.footer-column ul li a:hover {
+  color: var(--color-text-lightest);
+}
+
+.footer-social {
+  display: flex;
+  justify-content: flex-end;
+  max-width: var(--container-max);
+  width: 100%;
+  padding: 0 var(--space-60);
+}
+
+.social-icon {
+  width: var(--size-45);
+  height: var(--size-45);
+  background: var(--color-primary-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+  margin-left: 12px;
+}
+
+.social-icon:hover {
+  background: var(--color-text-lightest);
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--color-border-lightest);
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-24) var(--space-20);
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: var(--text-size-16);
+  color: var(--color-text-lightest);
+}
+
+.team-grid-card .read-more::after {
+  content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>');
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  padding-bottom: 6px;
+  vertical-align: middle;
+}
+
+.team-grid-card .read-more:hover {
+  color: #3c4580;
+  transform: translateY(-2px);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Active team card: grow to ~65% width while others shrink */
+.team-grid-card.active .read-more {
+  display: none;
+}
+
+.team-grid-card.active {
+  flex: 1 0 45%;
+  z-index: 2;
+  animation: popUp 0.3s ease-out;
+  transform: translateY(-5px);
+}
+
+.team-grid-card.active .contact {
+  margin-left: auto;
+  display: block;
+}
+
+.team-grid-card.active .about {
+  display: block;
+  /* overflow: hidden + finite max-height lets the .about max-height
+     transition drive the smooth height growth without anything else
+     competing for it. The cap fits any realistic about-text length. */
+  overflow: hidden;
+  line-clamp: unset;
+  -webkit-line-clamp: unset;
+  max-height: 30em;
+}
+
+.team-grid-card .team-photo {
+  border-radius: 100%;
+  object-fit: cover;
+  display: block;
+  /* Snap (no transition) so the team-header width does not progressively
+     narrow during activation, which would reflow .about into more lines
+     and push the card height above its final. */
+  margin-right: 8px;
+}
+
+.team-grid-card.active .team-photo {
+  width: 0;
+  margin-right: 0;
+}
+
+.team-grid-card .team-photo-large-wrapper {
+  flex: 1 1 270px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: min-content;
+  min-width: 0;
+  max-width: 0;
+  /* Snap (no transition) so the .team-content column does not progressively
+     narrow as the photo slides in, which would otherwise reflow the about
+     text into more lines and overshoot the final card height. */
+}
+
+.team-grid-card .team-photo-large {
+  width: 270px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+
+.team-grid-card.active .team-photo-large-wrapper {
+  max-width: 270px;
+}
+
+@keyframes popUp {
+  0% {
+    opacity: 0.85;
+    transform: translateY(0) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1);
+  }
+}
+
+.service-body h2 {
+  font-size: 54px;
+  margin-top: 32px;
+}
+
+.service-body h3 {
+  font-size: 32.5px;
+  margin-top: 24px;
+}
+
+.service-body h4 {
+  font-size: 27px;
+  margin-top: 18px;
+}
+
+.service-body h5 {
+  font-size: 20px;
+  margin-top: 12px;
+}
+
+.service-body h6 {
+  font-size: 16px;
+  margin-top: 8px;
+}

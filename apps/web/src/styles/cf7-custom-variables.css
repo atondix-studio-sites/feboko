@@ -1,0 +1,11 @@
+/* ===== CF7 CUSTOM VARIABLES ===== */
+:root {
+  /* Contact Form Colors */
+  --cf7-bg-primary: rgba(121, 128, 178, 0.3);
+  --cf7-bg-hover: rgba(121, 128, 178, 0.5);
+  --cf7-border: #696969;
+  --cf7-border-focus: rgba(121, 128, 178, 0.6);
+  --cf7-text-label: #d4d4d4;
+  --cf7-text-input: #f8f8f8;
+  --cf7-text-placeholder: rgba(255, 255, 255, 0.45);
+}

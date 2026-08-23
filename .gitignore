@@ -1,0 +1,12 @@
+node_modules/
+.next/
+dist/
+.turbo/
+.env
+.env.local
+*.log
+.DS_Store
+*.db
+wp-config.php
+apps/web/public/media/*
+!apps/web/public/media/.gitkeep
