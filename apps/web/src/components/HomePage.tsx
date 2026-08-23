@@ -12,6 +12,8 @@ import {
 import { boldUpToColon, formatQuote, localizePath, mediaSrc } from "@/lib/utils";
 import { prisma } from "@/lib/db";
 import { INDIA_FEATURE_ICONS, WHY_FEATURE_ICONS } from "./FeatureIcons";
+import { StudioPartnersStrip, StudioServicesCarousel } from "./content/StudioContentSlots";
+import { studioContentEnabled } from "@/lib/studio-content";
 
 async function sectionImage(sectionKey: string, pageKey = "frontpage") {
   const section = await getSection(pageKey, sectionKey);
@@ -57,19 +59,23 @@ export async function HomePage({ lang }: { lang: Lang }) {
           <a href="#contact" className="hero-cta">{get("hero", "cta")}</a>
         </div>
         <div className="partner-logos">
-          <div className="partner-logos-scroll">
-            {[...partners, ...partners, ...partners].flatMap((p, i) =>
-              p.logo
-                ? [
-                    <img
-                      key={`${p.id}-${i}`}
-                      src={mediaSrc(p.logo.localPath, p.logo.originalUrl)}
-                      alt={p.name}
-                    />,
-                  ]
-                : [],
-            )}
-          </div>
+          {studioContentEnabled() ? (
+            <StudioPartnersStrip />
+          ) : (
+            <div className="partner-logos-scroll">
+              {[...partners, ...partners, ...partners].flatMap((p, i) =>
+                p.logo
+                  ? [
+                      <img
+                        key={`${p.id}-${i}`}
+                        src={mediaSrc(p.logo.localPath, p.logo.originalUrl)}
+                        alt={p.name}
+                      />,
+                    ]
+                  : [],
+              )}
+            </div>
+          )}
         </div>
       </section>
 
@@ -207,20 +213,24 @@ export async function HomePage({ lang }: { lang: Lang }) {
             <svg width="24" height="24" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" fill="none" stroke="currentColor" strokeWidth="2" /></svg>
           </button>
           <div className="service-carousel-viewport">
-            <div className="service-carousel-track" id="service-carousel-track">
-              {services.map((service) => (
-                <article className="service-grid-card service-card" key={service.id}>
-                  {service.featuredImage && (
-                    <img src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)} alt={service.title} />
-                  )}
-                  <h3>{service.title}</h3>
-                  <p>{service.excerpt}</p>
-                  <Link className="read-more" href={localizePath(`/services/${service.slug}`, lang)}>
-                    {t(lang, "Weiterlesen", "Read More")}
-                  </Link>
-                </article>
-              ))}
-            </div>
+            {studioContentEnabled() ? (
+              <StudioServicesCarousel lang={lang} />
+            ) : (
+              <div className="service-carousel-track" id="service-carousel-track">
+                {services.map((service) => (
+                  <article className="service-grid-card service-card" key={service.id}>
+                    {service.featuredImage && (
+                      <img src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)} alt={service.title} />
+                    )}
+                    <h3>{service.title}</h3>
+                    <p>{service.excerpt}</p>
+                    <Link className="read-more" href={localizePath(`/services/${service.slug}`, lang)}>
+                      {t(lang, "Weiterlesen", "Read More")}
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
           <button className="service-carousel-arrow service-carousel-arrow--right" id="service-carousel-next" type="button" aria-label="Next">
             <svg width="24" height="24" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6" fill="none" stroke="currentColor" strokeWidth="2" /></svg>

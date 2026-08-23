@@ -6,6 +6,8 @@ import { localizePath, mediaSrc } from "@/lib/utils";
 import { prisma } from "@/lib/db";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { TeamCard, teamMemberKey } from "@/components/TeamCard";
+import { StudioPeopleGrid } from "@/components/content/StudioContentSlots";
+import { studioContentEnabled } from "@/lib/studio-content";
 
 async function sectionImage(pageKey: string, sectionKey: string) {
   const section = await prisma.siteSection.findUnique({
@@ -71,11 +73,15 @@ export default async function TeamPage({
       <section className="content-section">
         <div className="container content">
           <h2 className="section-title">{t(lang, "Treffen Sie unser Team", "Meet Our Team")}</h2>
-          <div className="team-grid">
-            {members.map((member) => (
-              <TeamCard key={member.id} member={member} lang={lang} activeKey={activeKey} />
-            ))}
-          </div>
+          {studioContentEnabled() ? (
+            <StudioPeopleGrid lang={lang} />
+          ) : (
+            <div className="team-grid">
+              {members.map((member) => (
+                <TeamCard key={member.id} member={member} lang={lang} activeKey={activeKey} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

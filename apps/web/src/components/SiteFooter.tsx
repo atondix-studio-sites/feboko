@@ -3,6 +3,7 @@ import type { Lang } from "@feboko/shared";
 import { t } from "@feboko/shared";
 import { localizePath } from "@/lib/utils";
 import { ContactForm } from "./ContactForm";
+import { studioContentEnabled } from "@/lib/studio-content";
 
 type NavItem = {
   labelDe: string | null;
@@ -46,10 +47,20 @@ export function SiteFooter({
         <div className="footer-contact">
           <div className="footer-contact-block">
             <h4>FeBoKo Consulting GbR</h4>
-            <p>Rosestraße 2</p>
-            <p style={{ marginBottom: 6 }}>95448 Bayreuth</p>
-            <p>E-Mail: <a href="mailto:info@feboko.com">info@feboko.com</a></p>
-            <p>Tel.: +49 (0) 157 33717052</p>
+            <p>E-Mail: <a href="mailto:info@feboko.com" data-atondix-field="contact.email">info@feboko.com</a></p>
+            <p data-atondix-field="contact.phone">Tel.: +49 (0) 157 33717052</p>
+            {!studioContentEnabled() ? (
+              <>
+                <p>Rosestraße 2</p>
+                <p style={{ marginBottom: 6 }}>95448 Bayreuth</p>
+              </>
+            ) : (
+              <p data-atondix-field="contact.address" style={{ marginBottom: 6 }}>
+                Rosestraße 2
+                <br />
+                95448 Bayreuth
+              </p>
+            )}
           </div>
           <div className="footer-contact-block">
             <h4>FeBoKo & Partners India Pvt. Ltd.</h4>

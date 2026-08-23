@@ -6,6 +6,8 @@ import { localizePath, mediaSrc } from "@/lib/utils";
 import { prisma } from "@/lib/db";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { JobCard } from "@/components/JobCard";
+import { StudioJobsGrid } from "@/components/content/StudioContentSlots";
+import { studioContentEnabled } from "@/lib/studio-content";
 
 async function careerImage() {
   const section = await prisma.siteSection.findUnique({
@@ -70,7 +72,9 @@ export default async function KarrierePage() {
 
       <section className="content-section">
         <div className="container content">
-          {jobs.length > 0 ? (
+          {studioContentEnabled() ? (
+            <StudioJobsGrid lang={lang} />
+          ) : jobs.length > 0 ? (
             <div className="job-grid">
               {jobs.map((job) => (
                 <JobCard key={job.id} job={job} lang={lang} />
