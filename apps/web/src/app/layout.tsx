@@ -5,6 +5,7 @@ import { getNavItems, getServices } from "@/lib/data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ClientBehaviors } from "@/components/ClientBehaviors";
+import { StudioSdk } from "@/components/StudioSdk";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://feboko.com"),
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {children}
         <SiteFooter lang={lang} footerFeboko={footerFeboko} footerLegal={footerLegal} />
         <ClientBehaviors />
+        <StudioSdk />
       </body>
     </html>
   );
