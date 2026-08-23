@@ -15,7 +15,7 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL="file:./packages/database/prisma/prod.db"
+ENV DATABASE_URL="file:/app/packages/database/prisma/prod.db"
 RUN npm run db:generate --workspace=@feboko/database
 RUN npm run db:push --workspace=@feboko/database
 RUN npm run migrate:wp
@@ -24,13 +24,14 @@ RUN npm run build:web
 FROM base AS runner
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV DATABASE_URL="file:./packages/database/prisma/prod.db"
+ENV DATABASE_URL="file:/app/packages/database/prisma/prod.db"
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 WORKDIR /app
 COPY --from=builder /app/apps/web/public ./apps/web/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/packages/database/prisma/prod.db ./packages/database/prisma/prod.db
+RUN mkdir -p packages/database/prisma && chown -R nextjs:nodejs packages/database
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
