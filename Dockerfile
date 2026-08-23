@@ -16,6 +16,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV DATABASE_URL="file:/app/packages/database/prisma/prod.db"
+ARG NEXT_PUBLIC_STUDIO_SITE_TOKEN
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_STUDIO_SITE_TOKEN=$NEXT_PUBLIC_STUDIO_SITE_TOKEN
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 RUN npm run db:generate --workspace=@feboko/database
 RUN npm run db:push --workspace=@feboko/database
 RUN npm run migrate:wp
