@@ -14,6 +14,7 @@ export async function POST(request: Request) {
       data: {
         name: data.name,
         email: data.email,
+        subject: data.subject,
         message: data.message,
         language: data.language ?? "de",
       },
@@ -28,8 +29,8 @@ export async function POST(request: Request) {
       await resend.emails.send({
         from: "FeBoKo Website <onboarding@resend.dev>",
         to,
-        subject: `Contact form: ${data.name}`,
-        text: `From: ${data.name} <${data.email}>\n\n${data.message}`,
+        subject: data.subject || `Contact form: ${data.name}`,
+        text: `From: ${data.name} <${data.email}>\nSubject: ${data.subject || "—"}\n\n${data.message}`,
       });
     }
 

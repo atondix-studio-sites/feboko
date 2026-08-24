@@ -47,8 +47,6 @@ export function SiteFooter({
         <div className="footer-contact">
           <div className="footer-contact-block">
             <h4>FeBoKo Consulting GbR</h4>
-            <p>E-Mail: <a href="mailto:info@feboko.com" data-atondix-field="contact.email">info@feboko.com</a></p>
-            <p data-atondix-field="contact.phone">Tel.: +49 (0) 157 33717052</p>
             {!studioContentEnabled() ? (
               <>
                 <p>Rosestraße 2</p>
@@ -61,6 +59,8 @@ export function SiteFooter({
                 95448 Bayreuth
               </p>
             )}
+            <p>E-Mail: <a href="mailto:info@feboko.com" data-atondix-field="contact.email">info@feboko.com</a></p>
+            <p data-atondix-field="contact.phone">Tel.: +49 (0) 157 33717052</p>
           </div>
           <div className="footer-contact-block">
             <h4>FeBoKo & Partners India Pvt. Ltd.</h4>

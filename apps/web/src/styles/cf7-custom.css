@@ -84,6 +84,11 @@
   margin-bottom: 0;
 }
 
+.footer-contact-form .wpcf7-list-item {
+  display: inline-block;
+  margin: 0 0 0 1em;
+}
+
 /* ===== Labels ===== */
 .footer-contact-form label {
   display: block;
