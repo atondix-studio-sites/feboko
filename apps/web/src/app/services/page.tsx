@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
@@ -6,6 +7,11 @@ import { localizePath, mediaSrc } from "@/lib/utils";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { StudioServicesGrid } from "@/components/content/StudioContentSlots";
 import { studioContentEnabled } from "@/lib/studio-content";
+
+export const metadata: Metadata = {
+  title: "Services",
+  alternates: { canonical: "/services" },
+};
 
 export default async function ServicesPage() {
   const lang = await getRequestLang();

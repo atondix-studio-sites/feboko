@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://feboko.com"),
   title: {
     default: "FeBoKo Consulting",
-    template: "%s | FeBoKo Consulting",
+    template: "%s – FeBoKo Consulting",
   },
-  description: "Expert consulting for market entry in India",
+  robots: { "max-image-preview": "large" },
   verification: { google: "q_8w_CFvSt6Jrdx2qk_kwga0MKt4_w3bV8ygDBDgmG0" },
 };
 

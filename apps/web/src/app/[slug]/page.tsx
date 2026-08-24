@@ -1,15 +1,36 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
-import { getPage } from "@/lib/data";
-import { localizePath } from "@/lib/utils";
+import { getBlogPost, getPage } from "@/lib/data";
+import { localizePath, wpAutoP } from "@/lib/utils";
+import { BlogPostView } from "@/components/BlogPostView";
 
 const LEGAL_SLUGS = ["impressum", "datenschutz", "nutzungsbedingungen"];
 
-export default async function StaticPage({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  if (!LEGAL_SLUGS.includes(slug)) notFound();
+  const lang = await getRequestLang();
+  if (!LEGAL_SLUGS.includes(slug)) {
+    const post = await getBlogPost(slug, lang);
+    if (!post) return { title: "Page not found" };
+    return {
+      title: post.title,
+      alternates: { canonical: `/${slug}/` },
+    };
+  }
+  const page = await getPage(slug);
+  const title = lang === "en" ? page?.titleEn || page?.titleDe : page?.titleDe || page?.titleEn;
+  return {
+    title: title || "FeBoKo Consulting",
+    alternates: { canonical: `/${slug}/` },
+  };
+}
+
+export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  if (!LEGAL_SLUGS.includes(slug)) return <BlogPostView slug={slug} />;
 
   const lang = await getRequestLang();
   const page = await getPage(slug);
@@ -33,7 +54,7 @@ export default async function StaticPage({ params }: { params: Promise<{ slug: s
       </section>
       <section className="container-small content">
         <div className="service-content">
-          <div className="service-body content no-padding-top" dangerouslySetInnerHTML={{ __html: content || "" }} />
+          <div className="service-body content no-padding-top" dangerouslySetInnerHTML={{ __html: wpAutoP(content || "") }} />
         </div>
       </section>
     </main>

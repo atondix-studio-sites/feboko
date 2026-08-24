@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
@@ -8,6 +9,11 @@ import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { JobCard } from "@/components/JobCard";
 import { StudioJobsGrid } from "@/components/content/StudioContentSlots";
 import { studioContentEnabled } from "@/lib/studio-content";
+
+export const metadata: Metadata = {
+  title: "Jobs",
+  alternates: { canonical: "/karriere" },
+};
 
 async function careerImage() {
   const section = await prisma.siteSection.findUnique({

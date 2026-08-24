@@ -1,10 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
 import { getService, getServices } from "@/lib/data";
-import { localizePath, mediaSrc } from "@/lib/utils";
+import { localizePath, mediaSrc, trimWords, wpAutoP } from "@/lib/utils";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const lang = await getRequestLang();
+  const service = await getService(slug, lang);
+  return {
+    title: service?.title || "Services",
+    alternates: { canonical: `/services/${slug}/` },
+  };
+}
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -70,7 +81,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
           <hr className="small" />
 
-          <div className="service-body content" dangerouslySetInnerHTML={{ __html: service.content || "" }} />
+          <div className="service-body content" dangerouslySetInnerHTML={{ __html: wpAutoP(service.content || "") }} />
 
           <hr />
 
@@ -89,7 +100,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                       </div>
                     )}
                     <h3>{next.title}</h3>
-                    <p>{next.excerpt}</p>
+                    <p>{trimWords(next.excerpt || "", 20)}</p>
                     <Link href={localizePath(`/services/${next.slug}`, lang)} className="read-more">
                       {t(lang, "Weiterlesen", "Read More")} →
                     </Link>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
 import { getBlogPosts } from "@/lib/data";
@@ -6,6 +7,11 @@ import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { BlogCard } from "@/components/BlogCard";
 import { StudioNewsGrid } from "@/components/content/StudioContentSlots";
 import { studioContentEnabled } from "@/lib/studio-content";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  alternates: { canonical: "/blog" },
+};
 
 export default async function BlogPage() {
   const lang = await getRequestLang();

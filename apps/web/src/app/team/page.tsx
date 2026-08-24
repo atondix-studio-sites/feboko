@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
@@ -8,6 +9,11 @@ import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { TeamCard, teamMemberKey } from "@/components/TeamCard";
 import { StudioPeopleGrid } from "@/components/content/StudioContentSlots";
 import { studioContentEnabled } from "@/lib/studio-content";
+
+export const metadata: Metadata = {
+  title: "Team Members",
+  alternates: { canonical: "/team" },
+};
 
 async function sectionImage(pageKey: string, sectionKey: string) {
   const section = await prisma.siteSection.findUnique({

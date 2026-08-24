@@ -21,7 +21,12 @@ export function sectionText(
   field: string,
   lang: Lang,
 ): string {
-  return sectionField(data as Record<string, unknown>, field, lang);
+  return sectionField(data as Record<string, unknown>, field, lang)
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#039;", "'")
+    .replaceAll("&apos;", "'")
+    .replaceAll("&nbsp;", "\u00a0");
 }
 
 export async function getServices(lang: Lang) {

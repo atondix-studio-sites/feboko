@@ -10,6 +10,7 @@ const SQL_PATH = join(ROOT, "data", "feboko-db-export.sql");
 
 type WpPost = {
   id: number;
+  postDate: string;
   title: string;
   content: string;
   excerpt: string;
@@ -20,6 +21,31 @@ type WpPost = {
   mimeType: string | null;
   parentId: number;
 };
+
+const LIVE_TEAM_ORDER_OVERRIDES = new Map<number, number>([
+  [83, 1],
+  [84, 2],
+  [81, 3],
+]);
+
+function decodeSqlEscapes(value: string): string {
+  let decoded = "";
+  for (let i = 0; i < value.length; i++) {
+    if (value[i] !== "\\" || i + 1 >= value.length) {
+      decoded += value[i];
+      continue;
+    }
+    const escaped = value[++i];
+    if (escaped === "0") decoded += "\0";
+    else if (escaped === "b") decoded += "\b";
+    else if (escaped === "n") decoded += "\n";
+    else if (escaped === "r") decoded += "\r";
+    else if (escaped === "t") decoded += "\t";
+    else if (escaped === "Z") decoded += "\x1a";
+    else decoded += escaped;
+  }
+  return decoded;
+}
 
 function loadSql(): string {
   if (!existsSync(SQL_PATH)) {
@@ -44,7 +70,7 @@ function parseSqlString(input: string, start: number): { value: string; end: num
   while (i < input.length) {
     const ch = input[i];
     if (ch === "\\") {
-      value += input[i + 1] ?? "";
+      value += decodeSqlEscapes(input.slice(i, i + 2));
       i += 2;
       continue;
     }
@@ -126,8 +152,9 @@ function parsePosts(sql: string): WpPost[] {
     const titleMatches = [...beforeStatus.matchAll(/'((?:\\'|[^'])*)'/g)];
     if (titleMatches.length < 4) continue;
 
-    const content = titleMatches[2][1].replace(/\\'/g, "'").replace(/\\r\\n/g, "\n");
-    const title = titleMatches[3][1].replace(/\\'/g, "'");
+    const postDate = titleMatches[0][1];
+    const content = decodeSqlEscapes(titleMatches[2][1]);
+    const title = decodeSqlEscapes(titleMatches[3][1]);
 
     const slugMatch = seg.match(
       /'closed', '', '([^']+)', '', '', '[^']*', '[^']*', '', (\d+), '[^']*'/,
@@ -137,9 +164,10 @@ function parsePosts(sql: string): WpPost[] {
 
     rows.push({
       id,
+      postDate,
       title,
       content,
-      excerpt: titleMatches[4]?.[1]?.replace(/\\'/g, "'") ?? "",
+      excerpt: titleMatches[4]?.[1] ? decodeSqlEscapes(titleMatches[4][1]) : "",
       slug,
       status,
       menuOrder,
@@ -324,6 +352,7 @@ async function main() {
   for (const post of posts.filter((p) => p.postType === "team" && p.status === "publish")) {
     const meta = postmeta.get(post.id) ?? new Map();
     const thumbId = meta.get("_thumbnail_id");
+    const sortOrder = LIVE_TEAM_ORDER_OVERRIDES.get(post.id) ?? post.menuOrder;
     await prisma.teamMember.upsert({
       where: { wpId: post.id },
       create: {
@@ -335,7 +364,7 @@ async function main() {
         phone: meta.get("_team_phone") || null,
         aboutDe: meta.get("_team_about") || null,
         aboutEn: meta.get("_team_about_en") || null,
-        sortOrder: post.menuOrder,
+        sortOrder,
         imageId: thumbId ? mediaMap.get(Number(thumbId)) : undefined,
       },
       update: {
@@ -346,7 +375,7 @@ async function main() {
         phone: meta.get("_team_phone") || null,
         aboutDe: meta.get("_team_about") || null,
         aboutEn: meta.get("_team_about_en") || null,
-        sortOrder: post.menuOrder,
+        sortOrder,
         imageId: thumbId ? mediaMap.get(Number(thumbId)) : undefined,
       },
     });
@@ -430,7 +459,7 @@ async function main() {
         title: post.title,
         excerpt: post.excerpt || null,
         content: post.content || null,
-        publishedAt: new Date(posts.find((p) => p.id === post.id) ? new Date().toISOString() : Date.now()),
+        publishedAt: new Date(`${post.postDate.replace(" ", "T")}Z`),
         featuredImageId: thumbId ? mediaMap.get(Number(thumbId)) : undefined,
       },
       update: {
@@ -439,6 +468,7 @@ async function main() {
         title: post.title,
         excerpt: post.excerpt || null,
         content: post.content || null,
+        publishedAt: new Date(`${post.postDate.replace(" ", "T")}Z`),
         featuredImageId: thumbId ? mediaMap.get(Number(thumbId)) : undefined,
       },
     });
