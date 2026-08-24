@@ -6,7 +6,6 @@ RUN corepack enable || true
 FROM base AS deps
 COPY package.json package-lock.json turbo.json ./
 COPY apps/web/package.json apps/web/
-COPY apps/admin/package.json apps/admin/
 COPY packages/database/package.json packages/database/
 COPY packages/shared/package.json packages/shared/
 RUN npm ci --legacy-peer-deps

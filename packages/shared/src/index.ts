@@ -9,9 +9,4 @@ export const contactFormSchema = z.object({
   website: z.string().max(0).optional(),
 });
 
-export const adminLoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
-});
-
 export * from "./i18n";

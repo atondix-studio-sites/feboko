@@ -180,27 +180,6 @@ model NavMenuItem {
   @@index([menuKey, sortOrder])
 }
 
-model AdminUser {
-  id           String    @id @default(cuid())
-  email        String    @unique
-  passwordHash String
-  name         String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  sessions     Session[]
-}
-
-model Session {
-  id        String   @id @default(cuid())
-  token     String   @unique
-  userId    String
-  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-
-  @@index([token])
-}
-
 model ContactSubmission {
   id        String   @id @default(cuid())
   name      String

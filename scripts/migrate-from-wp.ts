@@ -2,7 +2,6 @@ import "dotenv/config";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { unserialize } from "php-serialize";
-import bcrypt from "bcryptjs";
 import { prisma, Language, JobType } from "@feboko/database";
 
 const ROOT = join(__dirname, "..");
@@ -521,18 +520,7 @@ async function main() {
     });
   }
 
-  // Admin user
-  const email = process.env.ADMIN_EMAIL || "admin@feboko.com";
-  const password = process.env.ADMIN_PASSWORD || "changeme";
-  const passwordHash = await bcrypt.hash(password, 10);
-  await prisma.adminUser.upsert({
-    where: { email },
-    create: { email, passwordHash, name: "Admin" },
-    update: { passwordHash },
-  });
-
   console.log("Migration complete.");
-  console.log(`Admin login: ${email} / ${password}`);
 }
 
 main()

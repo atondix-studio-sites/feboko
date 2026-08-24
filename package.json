@@ -15,13 +15,11 @@
     "migrate:wp": "tsx scripts/migrate-from-wp.ts",
     "scrape:media": "tsx scripts/scrape-media.ts",
     "build:web": "npm run build --workspace=@feboko/web",
-    "build:admin": "npm run build --workspace=@feboko/admin",
     "start:web": "npm run start --workspace=@feboko/web"
   },
   "dependencies": {
     "@feboko/database": "*",
     "@prisma/client": "^6.3.0",
-    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "php-serialize": "^5.1.0"
   },
