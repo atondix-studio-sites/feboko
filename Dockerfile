@@ -14,6 +14,10 @@ RUN npm ci --legacy-peer-deps
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# The application database stores media paths below /media, while the source
+# assets live in the tracked WordPress upload tree. Populate Next's public
+# directory before building so every standalone deployment serves those paths.
+RUN cp -R wp-content/uploads/. apps/web/public/media/
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV DATABASE_URL="file:/app/packages/database/prisma/prod.db"
 ARG NEXT_PUBLIC_STUDIO_SITE_TOKEN

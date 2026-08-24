@@ -8,5 +8,7 @@ dist
 .env.local
 wp-admin
 wp-includes
-wp-content
+wp-content/*
+!wp-content/uploads
+!wp-content/uploads/**
 *.db
