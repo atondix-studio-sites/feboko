@@ -218,7 +218,7 @@ export async function HomePage({ lang }: { lang: Lang }) {
             ) : (
               <div className="service-carousel-track" id="service-carousel-track">
                 {services.map((service) => (
-                  <article className="service-grid-card service-card" key={service.id}>
+                  <article className="service-grid-card" key={service.id}>
                     {service.featuredImage && (
                       <img src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)} alt={service.title} />
                     )}

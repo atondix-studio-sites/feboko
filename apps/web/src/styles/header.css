@@ -44,15 +44,11 @@ body.admin-bar .site-header {
   position: relative;
   z-index: var(--z-header);
   transition: all var(--transition-base-in-out);
-  min-height: 73px;
 }
 
 /* Logo */
 .site-logo {
   padding: var(--space-4) 0;
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
 }
 
 .site-logo a {
@@ -74,21 +70,6 @@ body.admin-bar .site-header {
   gap: var(--space-16);
   align-items: center;
   list-style: none;
-}
-
-.nav-container {
-  flex: 1;
-  justify-content: center;
-}
-
-.main-navigation {
-  margin: 0;
-  padding: 0;
-}
-
-.main-navigation .menu-item {
-  display: flex;
-  align-items: center;
 }
 
 /* <li> items inside the menu */
@@ -124,7 +105,6 @@ body.admin-bar .site-header {
   display: flex;
   align-items: center;
   gap: var(--space-8);
-  flex-shrink: 0;
 }
 
 .language-switcher .lang-active {

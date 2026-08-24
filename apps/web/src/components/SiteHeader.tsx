@@ -69,7 +69,7 @@ export function SiteHeader({
               <Link href={localizePath("/team", lang)}>{t(lang, "Team", "Team")}</Link>
             </li>
             <li className="menu-item">
-              <Link href="/karriere">{t(lang, "Karriere", "Careers")}</Link>
+              <Link href={localizePath("/karriere", lang)}>{t(lang, "Karriere", "Careers")}</Link>
             </li>
             <li className="menu-item">
               <Link href={localizePath("/blog", lang)}>{t(lang, "Blog", "Blog")}</Link>

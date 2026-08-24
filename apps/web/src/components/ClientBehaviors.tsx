@@ -14,6 +14,8 @@ function initMegaMenu() {
   const $toggle = document.querySelector(".mega-menu-toggle");
   const $panelEl = document.getElementById("mega-menu-panel");
   if (!$liEl || !$panelEl) return;
+  if (($liEl as HTMLElement).dataset.megaMenuInitialized === "true") return;
+  ($liEl as HTMLElement).dataset.megaMenuInitialized = "true";
   const $li = $liEl;
   const $panel = $panelEl;
 
@@ -103,6 +105,12 @@ function initMegaMenu() {
   });
 
   if ($toggle) {
+    $toggle.addEventListener("focus", () => {
+      if (window.getComputedStyle($toggle).display !== "none") return;
+      if (closeTimer) clearTimeout(closeTimer);
+      openMenu();
+    });
+
     $toggle.addEventListener("click", (e) => {
       e.stopPropagation();
       const expanded = $toggle.getAttribute("aria-expanded") === "true";
@@ -142,8 +150,28 @@ export function ClientBehaviors() {
     const $hamburger = document.querySelector(".hamburger-toggle");
     const $nav = document.querySelector("nav.nav-container");
     const $overlay = document.querySelector(".mobile-menu-overlay");
+    const $langSwitcher = document.querySelector(".language-switcher");
+    const $headerContainer = document.querySelector(".site-header > .container");
+    const $header = document.querySelector(".site-header");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let langMovedIntoNav = $langSwitcher?.parentElement === $nav;
+
+    function moveLangSwitcherIntoNav() {
+      if (!langMovedIntoNav && $langSwitcher && $nav) {
+        $nav.append($langSwitcher);
+        langMovedIntoNav = true;
+      }
+    }
+
+    function moveLangSwitcherToHeader() {
+      if (langMovedIntoNav && $langSwitcher && $headerContainer) {
+        $headerContainer.append($langSwitcher);
+        langMovedIntoNav = false;
+      }
+    }
 
     function openMenu() {
+      moveLangSwitcherIntoNav();
       $hamburger?.classList.add("active");
       $hamburger?.setAttribute("aria-expanded", "true");
       $nav?.classList.add("active");
@@ -167,28 +195,108 @@ export function ClientBehaviors() {
     $hamburger?.addEventListener("click", onHamburger);
     $overlay?.addEventListener("click", closeMenu);
 
+    const onResize = () => {
+      if (window.innerWidth > 768) {
+        if ($nav?.classList.contains("active")) closeMenu();
+        moveLangSwitcherToHeader();
+      } else {
+        moveLangSwitcherIntoNav();
+      }
+    };
+    onResize();
+    window.addEventListener("resize", onResize);
+
     $nav?.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.closest("#mega-menu-panel")) return;
       if (target.closest("a")) closeMenu();
     });
 
+    let smoothScrollRafId = 0;
+    const anchorHandlers = new Map<Element, EventListener>();
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", (event) => {
+      const handler: EventListener = (event) => {
         const href = anchor.getAttribute("href");
         if (!href || href === "#") return;
         const el = document.querySelector(href);
         if (el) {
           event.preventDefault();
           const top = el.getBoundingClientRect().top + window.scrollY - 100;
-          window.scrollTo({ top, behavior: "smooth" });
+          if (reducedMotion) {
+            window.scrollTo({ top });
+            return;
+          }
+          if (smoothScrollRafId) cancelAnimationFrame(smoothScrollRafId);
+          const start = window.scrollY;
+          const distance = top - start;
+          const startedAt = performance.now();
+          const animateScroll = (now: number) => {
+            const progress = Math.min(1, (now - startedAt) / 1000);
+            const eased = 0.5 - Math.cos(progress * Math.PI) / 2;
+            window.scrollTo({ top: start + distance * eased });
+            if (progress < 1) smoothScrollRafId = requestAnimationFrame(animateScroll);
+          };
+          smoothScrollRafId = requestAnimationFrame(animateScroll);
         }
-      });
+      };
+      anchorHandlers.set(anchor, handler);
+      anchor.addEventListener("click", handler);
     });
 
     initMegaMenu();
 
+    let lastScrollTop = 0;
+    let scrollUpAccumulated = 0;
+    let scrollDownAccumulated = 0;
+    let headerVisible = false;
+    const onScroll = () => {
+      const currentScroll = window.scrollY;
+      $header?.classList.toggle("sticky", currentScroll > 10);
+
+      if (window.innerWidth <= 768) {
+        if (currentScroll <= 0) {
+          $header?.classList.remove("header-invisible");
+          headerVisible = false;
+          scrollUpAccumulated = 0;
+          scrollDownAccumulated = 0;
+        } else if (currentScroll < lastScrollTop) {
+          scrollDownAccumulated = 0;
+          scrollUpAccumulated += lastScrollTop - currentScroll;
+          if (scrollUpAccumulated >= 10 && !headerVisible) {
+            $header?.classList.remove("header-invisible");
+            headerVisible = true;
+            scrollUpAccumulated = 0;
+          }
+        } else {
+          scrollUpAccumulated = 0;
+          scrollDownAccumulated += currentScroll - lastScrollTop;
+          if (scrollDownAccumulated >= 30 && headerVisible) {
+            $header?.classList.add("header-invisible");
+            headerVisible = false;
+            scrollDownAccumulated = 0;
+          }
+        }
+      }
+      lastScrollTop = currentScroll;
+    };
+
+    const fadeInOnScroll = () => {
+      const viewportTop = window.scrollY;
+      const viewportBottom = viewportTop + window.innerHeight;
+      document.querySelectorAll(".feature-card, .service-card, .team-card").forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        const elementTop = rect.top + window.scrollY;
+        const elementBottom = elementTop + rect.height;
+        if (elementBottom > viewportTop && elementTop < viewportBottom) element.classList.add("fade-in");
+      });
+    };
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", fadeInOnScroll);
+    onScroll();
+    fadeInOnScroll();
+
     let marqueeRafId = 0;
+    let disposed = false;
     const scrollEl = document.querySelector(".partner-logos-scroll") as HTMLElement | null;
     if (scrollEl) {
       const imgs = Array.from(scrollEl.querySelectorAll("img"));
@@ -213,6 +321,7 @@ export function ClientBehaviors() {
           scrollWidth = measureFirstSet();
           if (scrollWidth <= 0) return;
 
+          if (reducedMotion) return;
           const speed = 0.5;
           const animate = () => {
             pos += speed;
@@ -223,40 +332,70 @@ export function ClientBehaviors() {
           marqueeRafId = requestAnimationFrame(animate);
         };
 
-        const onImagesReady = () => {
-          if (scrollWidth > 0) return;
-          startMarquee();
-        };
-
-        imgs.forEach((img) => {
-          if (img.complete) onImagesReady();
-          else img.addEventListener("load", onImagesReady, { once: true });
+        Promise.all(
+          imgs.map(
+            (img) =>
+              new Promise<void>((resolve) => {
+                if (img.complete) resolve();
+                else {
+                  img.addEventListener("load", () => resolve(), { once: true });
+                  img.addEventListener("error", () => resolve(), { once: true });
+                }
+              }),
+          ),
+        ).then(() => {
+          if (!disposed) startMarquee();
         });
-
-        requestAnimationFrame(() => onImagesReady());
       }
     }
 
+    let cleanupCarousel = () => {};
     const track = document.getElementById("service-carousel-track");
     const prev = document.getElementById("service-carousel-prev");
     const next = document.getElementById("service-carousel-next");
     if (track && prev && next) {
       let index = 0;
-      const cards = track.querySelectorAll(".service-card");
-      const update = () => {
-        const card = cards[index] as HTMLElement | undefined;
-        if (!card) return;
-        const offset = card.offsetLeft;
-        track.style.transform = `translateX(-${offset}px)`;
+      const cards = track.querySelectorAll(".service-grid-card");
+      const getVisible = () => {
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
       };
-      prev.addEventListener("click", () => {
-        index = Math.max(0, index - 1);
+      const getMaxIndex = () => Math.max(0, cards.length - getVisible());
+      const update = () => {
+        const card = cards[0] as HTMLElement | undefined;
+        if (!card) return;
+        const gap = Number.parseFloat(window.getComputedStyle(track).gap) || 40;
+        const offset = index * (card.offsetWidth + gap);
+        track.style.transform = `translateX(-${offset}px)`;
+        prev.classList.toggle("service-carousel-arrow--disabled", index <= 0);
+        next.classList.toggle("service-carousel-arrow--disabled", index >= getMaxIndex());
+      };
+      const onPrev = () => {
+        if (index > 0) {
+          index--;
+          update();
+        }
+      };
+      const onNext = () => {
+        if (index < getMaxIndex()) {
+          index++;
+          update();
+        }
+      };
+      const onCarouselResize = () => {
+        if (index > getMaxIndex()) index = getMaxIndex();
         update();
-      });
-      next.addEventListener("click", () => {
-        index = Math.min(cards.length - 1, index + 1);
-        update();
-      });
+      };
+      prev.addEventListener("click", onPrev);
+      next.addEventListener("click", onNext);
+      window.addEventListener("resize", onCarouselResize);
+      update();
+      cleanupCarousel = () => {
+        prev.removeEventListener("click", onPrev);
+        next.removeEventListener("click", onNext);
+        window.removeEventListener("resize", onCarouselResize);
+      };
     }
 
     document.querySelectorAll(".team-grid-card .read-more").forEach((link) => {
@@ -276,7 +415,7 @@ export function ClientBehaviors() {
           history.pushState({}, "", `${url.pathname}?${url.searchParams.toString()}`);
           document.querySelectorAll(".team-grid-card.active").forEach((c) => c.classList.remove("active"));
           card.classList.add("active");
-          card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          card.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "nearest" });
         }
       });
     });
@@ -302,7 +441,7 @@ export function ClientBehaviors() {
         } else {
           document.querySelectorAll(".job-grid-card.active").forEach((c) => c.classList.remove("active"));
           card.classList.add("active");
-          card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          card.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "nearest" });
         }
       });
     });
@@ -316,10 +455,18 @@ export function ClientBehaviors() {
     });
 
     return () => {
+      disposed = true;
       $hamburger?.removeEventListener("click", onHamburger);
       $overlay?.removeEventListener("click", closeMenu);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", fadeInOnScroll);
       window.removeEventListener("popstate", setActiveTeamFromParam);
       if (marqueeRafId) cancelAnimationFrame(marqueeRafId);
+      if (smoothScrollRafId) cancelAnimationFrame(smoothScrollRafId);
+      anchorHandlers.forEach((handler, anchor) => anchor.removeEventListener("click", handler));
+      cleanupCarousel();
+      moveLangSwitcherToHeader();
     };
   }, []);
 
