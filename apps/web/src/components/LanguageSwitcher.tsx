@@ -7,6 +7,8 @@ import type { Lang } from "@feboko/shared";
 export function LanguageSwitcher({ lang }: { lang: Lang }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  // Prefer the live URL so the active weight stays correct even if layout lang is stale.
+  const activeLang: Lang = searchParams.get("lang") === "en" ? "en" : lang === "en" ? "en" : "de";
 
   const deParams = new URLSearchParams(searchParams.toString());
   deParams.delete("lang");
@@ -25,9 +27,23 @@ export function LanguageSwitcher({ lang }: { lang: Lang }) {
           fill="black"
         />
       </svg>
-      <Link href={deUrl} className={lang === "de" ? "lang-active" : ""}>DE</Link>
+      <Link
+        href={deUrl}
+        className={activeLang === "de" ? "lang-active" : undefined}
+        aria-current={activeLang === "de" ? "true" : undefined}
+        lang="de"
+      >
+        DE
+      </Link>
       <span className="separator"></span>
-      <Link href={enUrl} className={lang === "en" ? "lang-active" : ""}>EN</Link>
+      <Link
+        href={enUrl}
+        className={activeLang === "en" ? "lang-active" : undefined}
+        aria-current={activeLang === "en" ? "true" : undefined}
+        lang="en"
+      >
+        EN
+      </Link>
     </div>
   );
 }

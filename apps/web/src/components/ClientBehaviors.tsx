@@ -49,6 +49,7 @@ function initMegaMenu() {
     $panel.removeAttribute("aria-hidden");
     $panel.setAttribute("aria-hidden", "false");
     if ($toggle) $toggle.setAttribute("aria-expanded", "true");
+    $link?.setAttribute("aria-expanded", "true");
     activateCategory(0);
   }
 
@@ -58,6 +59,7 @@ function initMegaMenu() {
     $li.classList.remove("mega-menu-open");
     $panel.setAttribute("aria-hidden", "true");
     if ($toggle) $toggle.setAttribute("aria-expanded", "false");
+    $link?.setAttribute("aria-expanded", "false");
   }
 
   function initDesktopHover() {
@@ -199,10 +201,21 @@ export function ClientBehaviors() {
       if (window.innerWidth > 768) {
         if ($nav?.classList.contains("active")) closeMenu();
         moveLangSwitcherToHeader();
+        // Mobile hide-on-scroll leaves .header-invisible; clear it when
+        // crossing back to desktop or the sticky header stays off-screen.
+        $header?.classList.remove("header-invisible");
+        headerVisible = false;
+        scrollUpAccumulated = 0;
+        scrollDownAccumulated = 0;
       } else {
         moveLangSwitcherIntoNav();
       }
     };
+    // Declared before onScroll so resize can reset the same accumulators.
+    let lastScrollTop = 0;
+    let scrollUpAccumulated = 0;
+    let scrollDownAccumulated = 0;
+    let headerVisible = false;
     onResize();
     window.addEventListener("resize", onResize);
 
@@ -245,10 +258,6 @@ export function ClientBehaviors() {
 
     initMegaMenu();
 
-    let lastScrollTop = 0;
-    let scrollUpAccumulated = 0;
-    let scrollDownAccumulated = 0;
-    let headerVisible = false;
     const onScroll = () => {
       const currentScroll = window.scrollY;
       $header?.classList.toggle("sticky", currentScroll > 10);
@@ -368,8 +377,12 @@ export function ClientBehaviors() {
         const gap = Number.parseFloat(window.getComputedStyle(track).gap) || 40;
         const offset = index * (card.offsetWidth + gap);
         track.style.transform = `translateX(-${offset}px)`;
-        prev.classList.toggle("service-carousel-arrow--disabled", index <= 0);
-        next.classList.toggle("service-carousel-arrow--disabled", index >= getMaxIndex());
+        const atStart = index <= 0;
+        const atEnd = index >= getMaxIndex();
+        prev.classList.toggle("service-carousel-arrow--disabled", atStart);
+        next.classList.toggle("service-carousel-arrow--disabled", atEnd);
+        prev.setAttribute("aria-disabled", String(atStart));
+        next.setAttribute("aria-disabled", String(atEnd));
       };
       const onPrev = () => {
         if (index > 0) {
@@ -431,6 +444,20 @@ export function ClientBehaviors() {
     setActiveTeamFromParam();
     window.addEventListener("popstate", setActiveTeamFromParam);
 
+    const onExpandableEscape = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      const activeTeam = document.querySelector(".team-grid-card.active");
+      if (activeTeam) {
+        activeTeam.classList.remove("active");
+        const url = new URL(window.location.href);
+        url.searchParams.delete("active");
+        history.pushState({}, "", url.pathname + (url.search ? `?${url.searchParams.toString()}` : ""));
+        (activeTeam.querySelector(".read-more") as HTMLElement | null)?.focus();
+      }
+      document.querySelectorAll(".job-grid-card.active").forEach((c) => c.classList.remove("active"));
+    };
+    document.addEventListener("keydown", onExpandableEscape);
+
     document.querySelectorAll(".job-grid-card .read-more").forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
@@ -462,6 +489,7 @@ export function ClientBehaviors() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("scroll", fadeInOnScroll);
       window.removeEventListener("popstate", setActiveTeamFromParam);
+      document.removeEventListener("keydown", onExpandableEscape);
       if (marqueeRafId) cancelAnimationFrame(marqueeRafId);
       if (smoothScrollRafId) cancelAnimationFrame(smoothScrollRafId);
       anchorHandlers.forEach((handler, anchor) => anchor.removeEventListener("click", handler));

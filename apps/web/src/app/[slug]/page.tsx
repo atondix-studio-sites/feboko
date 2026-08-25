@@ -47,11 +47,11 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
           {t(lang, "Zurück zur Homepage", "Back to Homepage")}
         </Link>
       </section>
-      <section className="container-small breadcrumbs">
+      <nav className="container-small breadcrumbs" aria-label="Breadcrumb">
         <Link href={localizePath("/", lang)}>Home</Link>
-        <span>›</span>
-        <span className="current">{title}</span>
-      </section>
+        <span aria-hidden="true">›</span>
+        <span className="current" aria-current="page">{title}</span>
+      </nav>
       <section className="container-small content">
         <div className="service-content">
           <div className="service-body content no-padding-top" dangerouslySetInnerHTML={{ __html: wpAutoP(content || "") }} />

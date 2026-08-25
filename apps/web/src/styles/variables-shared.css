@@ -9,6 +9,9 @@
 
   /* Accent Colors */
   --color-accent-orange: #ff850c;
+  /* Darkened variant of the accent orange, for small text on light
+     backgrounds where #ff850c only reaches 2.3:1. */
+  --color-accent-orange-text: #a85200;
   --color-accent-green: #00c954;
 
   /* Backgrounds */
@@ -40,6 +43,15 @@
   /* Error */
   --color-error: #ff6b6b;
 
+  /* Success */
+  --color-success: #00c954;
+
+  /* Focus ring (keyboard navigation only) */
+  --focus-ring-color: #3c4580;
+  --focus-ring-color-on-dark: #ffffff;
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
   /* ===== TYPOGRAPHY ===== */
   /* Font Families */
   --font-oswald: "Oswald", sans-serif;
@@ -53,6 +65,7 @@
   --text-size-54: 54px;
   --text-size-36: 36px;
   --text-size-32: 32px;
+  --text-size-28: 28px;
   --text-size-32-5: 32.5px;
   --text-size-22: 22px;
   --text-size-20: 20px;
@@ -75,6 +88,7 @@
   --line-height-1-45: 1.45;
   --line-height-1-5: 1.5;
   --line-height-1-6: 1.6;
+  --line-height-normal: 1.4;
 
   /* Letter Spacing */
   --letter-spacing-0-18: 0.18px;
@@ -96,6 +110,7 @@
   --space-40: 40px;
   --space-44: 44px;
   --space-48: 48px;
+  --space-50: 50px;
   --space-60: 60px;
   --space-63: 63px;
   --space-80: 80px;
@@ -109,6 +124,8 @@
   --size-45: 45px;
   --size-75: 75px;
   --size-180: 180px;
+  --size-200: 200px;
+  --size-300: 300px;
   --size-244: 244px;
   --size-260: 260px;
   --size-400: 400px;

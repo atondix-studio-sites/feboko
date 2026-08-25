@@ -29,17 +29,19 @@ export function Breadcrumbs({
   containerClass?: string;
 }) {
   return (
-    <section className={`${containerClass} breadcrumbs`}>
+    <nav className={`${containerClass} breadcrumbs`} aria-label="Breadcrumb">
       {items.map((item, i) => (
         <span key={`${item.label}-${i}`}>
           {item.current || !item.href ? (
-            <span className={item.current ? "current" : undefined}>{item.label}</span>
+            <span className={item.current ? "current" : undefined} aria-current={item.current ? "page" : undefined}>
+              {item.label}
+            </span>
           ) : (
             <Link href={item.href}>{item.label}</Link>
           )}
-          {i < items.length - 1 && <span> › </span>}
+          {i < items.length - 1 && <span aria-hidden="true"> › </span>}
         </span>
       ))}
-    </section>
+    </nav>
   );
 }

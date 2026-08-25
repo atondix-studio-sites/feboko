@@ -92,7 +92,15 @@ export function ContactForm({ lang }: { lang: Lang }) {
 
           <p className="akismet-fields-container" style={{ display: "none" }} aria-hidden="true"></p>
 
-          {(error || status === "success") && <div className="wpcf7-response-output" style={{ display: "block" }} role="status">{error || (lang === "en" ? "Thank you! We will get back to you soon." : "Vielen Dank! Wir melden uns in Kürze.")}</div>}
+          {(error || status === "success") && (
+            <div
+              className={`wpcf7-response-output ${error ? "is-error" : "is-success"}`}
+              style={{ display: "block" }}
+              role={error ? "alert" : "status"}
+            >
+              {error || (lang === "en" ? "Thank you! We will get back to you soon." : "Vielen Dank! Wir melden uns in Kürze.")}
+            </div>
+          )}
         </form>
       </div>
     </div>

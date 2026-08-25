@@ -89,6 +89,29 @@
   margin: 0 0 0 1em;
 }
 
+.footer-contact-form .wpcf7-acceptance label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+  font-weight: var(--weight-normal);
+  margin-bottom: 0;
+}
+
+.footer-contact-form .wpcf7-acceptance input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--color-primary-accent);
+  cursor: pointer;
+}
+
+.footer-contact-form .wpcf7-list-item-label a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ===== Labels ===== */
 .footer-contact-form label {
   display: block;
@@ -162,7 +185,7 @@
   width: fit-content;
 }
 
-.footer-contact-form .wpcf7-form-control.wpcf7-submit:hover {
+.footer-contact-form .wpcf7-form-control.wpcf7-submit:hover:not(:disabled) {
   background: var(--color-primary-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -284,7 +307,7 @@
   width: fit-content;
 }
 
-.footer-contact-form .wpcf7-form-control.wpcf7-submit:hover {
+.footer-contact-form .wpcf7-form-control.wpcf7-submit:hover:not(:disabled) {
   background: #3c4580;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -322,5 +345,54 @@
 
   .footer-contact-form .cf7-row {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Submit & response states =====
+   Declared last: the rules above are repeated further up this file with
+   hard-coded values, so these have to come after both copies. */
+
+/* The submit button is disabled until the privacy box is ticked. Previously it
+   kept full opacity, a pointer cursor and its hover lift, so it read as
+   clickable and simply did nothing. */
+.footer-contact-form .wpcf7-form-control.wpcf7-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Success and failure previously rendered as identical unstyled text pressed
+   against the submit button. */
+.footer-contact-form .wpcf7-response-output {
+  margin-top: var(--space-16);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--border-radius-4);
+  border-left: 3px solid currentColor;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: var(--text-size-14);
+  line-height: var(--line-height-1-5);
+}
+
+.footer-contact-form .wpcf7-response-output.is-success {
+  color: var(--color-accent-green);
+}
+
+.footer-contact-form .wpcf7-response-output.is-error {
+  color: var(--color-error);
+}
+
+/* The duplicated @media (max-width: 900px) block earlier in this file
+   re-declares the form padding with hard-coded values and was overriding the
+   ≤768px rule, so phones kept the 30px tablet gutter. */
+@media (max-width: 768px) {
+  .footer-contact-form {
+    padding: var(--space-40) var(--space-20);
+  }
+}
+
+@media (max-width: 380px) {
+  .footer-contact-form {
+    padding: var(--space-32) var(--space-16);
   }
 }

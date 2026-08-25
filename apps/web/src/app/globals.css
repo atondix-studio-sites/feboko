@@ -5,9 +5,38 @@
 @import url("../styles/sections.css");
 @import url("../styles/components.css");
 @import url("../styles/pages.css");
-@import url("../styles/responsive.css");
 @import url("../styles/style.css");
+/* responsive.css loads last so its breakpoint rules are not overridden by the
+   equal-specificity base rules in style.css (which is why several mobile rules
+   there previously had no effect, and others needed !important). */
+@import url("../styles/responsive.css");
 @import url("../styles/cf7-custom.css");
+
+/* ===== KEYBOARD FOCUS =====
+   Only :focus-visible, so pointer interaction is unchanged. The form fields
+   in cf7-custom.css set `outline: none`, which previously left keyboard users
+   with no focus indicator at all on the contact form. */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--border-radius-4);
+}
+
+/* Dark surfaces need the light ring to stay visible. */
+.site-footer :focus-visible,
+.footer-contact-area :focus-visible,
+.mega-menu-advantage :focus-visible,
+.hero-content :focus-visible {
+  outline-color: var(--focus-ring-color-on-dark);
+}
+
+/* The form controls opt out of the outline in cf7-custom.css, in rules of equal
+   specificity, so the class is repeated here to win the cascade outright. */
+.footer-contact-form .wpcf7-form-control.wpcf7-form-control:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color-on-dark);
+  outline-offset: var(--focus-ring-offset);
+  border-color: var(--focus-ring-color-on-dark);
+}
 
 .border-box ul li::before {
   -webkit-mask: url("/icons/check-circle.svg") no-repeat center;

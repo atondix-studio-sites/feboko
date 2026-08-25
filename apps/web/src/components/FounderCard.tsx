@@ -22,7 +22,7 @@ export function FounderCard({
           <img className="founder-avatar-img" src={image} alt={name} />
         </div>
         <div className="founder-card-info">
-          <h4 className="founder-card-name">{name}</h4>
+          <h3 className="founder-card-name">{name}</h3>
           <p className="founder-card-title">{title}</p>
         </div>
       </div>
@@ -32,9 +32,12 @@ export function FounderCard({
       <button
         className="founder-card-toggle"
         type="button"
+        aria-expanded={false}
         onClick={(e) => {
-          const card = (e.currentTarget as HTMLButtonElement).closest(".founder-card");
-          card?.classList.toggle("is-expanded");
+          const button = e.currentTarget as HTMLButtonElement;
+          const card = button.closest(".founder-card");
+          const expanded = card?.classList.toggle("is-expanded") ?? false;
+          button.setAttribute("aria-expanded", String(expanded));
         }}
       >
         <span className="toggle-more">{lang === "en" ? "Show more" : "Mehr anzeigen"}</span>

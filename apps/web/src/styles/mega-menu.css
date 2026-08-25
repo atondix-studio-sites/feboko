@@ -41,6 +41,13 @@
   border-top: 2px solid var(--color-bg-section-light);
   z-index: calc(var(--z-header) - 1);
 
+  /* Keep the panel inside the viewport; scroll when content is taller */
+  max-height: min(70vh, calc(100dvh - 7.5rem));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+
   /* Hidden state */
   opacity: 0;
   visibility: hidden;
@@ -70,10 +77,10 @@
 
 .mega-menu-inner {
   display: grid;
-  grid-template-columns: 260px 1fr 280px;
+  grid-template-columns: 280px 1fr 300px;
   gap: var(--space-48);
-  padding-top: var(--space-32);
-  padding-bottom: var(--space-32);
+  padding-top: var(--space-40);
+  padding-bottom: var(--space-40);
   /* min-height removed to allow content-driven height */
 }
 
@@ -83,16 +90,16 @@
 .mega-menu-categories {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-8);
   border-right: 1px solid var(--color-bg-section-light);
-  padding-right: var(--space-24);
+  padding-right: var(--space-32);
 }
 
 .mega-menu-category {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-12) var(--space-16);
+  padding: var(--space-14) var(--space-16);
   font-family: var(--font-outfit);
   font-size: var(--text-size-18);
   font-weight: var(--weight-medium);
@@ -168,7 +175,7 @@
 .mega-menu-subservice-list {
   display: none;
   flex-direction: column;
-  gap: var(--space-20);
+  gap: var(--space-24);
 }
 
 .mega-menu-subservice-list.is-visible {
@@ -184,7 +191,7 @@
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-0-2);
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-16);
   transition: color var(--transition-fast);
 }
 
@@ -198,17 +205,17 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-8);
 }
 
 .mega-menu-subservice-list li {
   break-inside: avoid;
-  margin-bottom: var(--space-4);
+  margin-bottom: 0;
 }
 
 .mega-menu-subservice-list a {
   display: block;
-  padding: var(--space-8) 0;
+  padding: var(--space-10) 0;
   font-family: var(--font-lato);
   font-size: var(--text-size-16);
   color: var(--color-text-secondary);
@@ -229,7 +236,7 @@
 
 .mega-menu-advantage {
   border-left: 1px solid var(--color-bg-section-light);
-  padding-left: var(--space-32);
+  padding-left: var(--space-40);
 }
 
 .mega-menu-advantage-title {
@@ -237,7 +244,7 @@
   font-size: var(--text-size-18);
   font-weight: var(--weight-semi-bold);
   color: var(--color-primary);
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-20);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-0-2);
 }
@@ -278,6 +285,32 @@
 
 .site-header>.container {
   overflow: visible;
+}
+
+
+/* ===== TABLET (769px - 1024px): reflow the three-column panel =====
+   The desktop grid reserves 260px + 280px + two 48px gaps before the
+   subservice column gets anything, which left that column at 93px on a 769px
+   viewport and wrapped every link over three lines. Drop the promo column
+   underneath and tighten the gap so the links get usable width. */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mega-menu-inner {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--space-24) var(--space-32);
+  }
+
+  .mega-menu-advantage {
+    grid-column: 1 / -1;
+    border-left: none;
+    border-top: 1px solid var(--color-bg-section-light);
+    padding-left: 0;
+    padding-top: var(--space-24);
+  }
+
+  .mega-menu-advantage-content {
+    max-width: 60ch;
+  }
 }
 
 
@@ -330,6 +363,8 @@
     box-shadow: none;
     border-top: none;
     background: transparent;
+    max-height: none;
+    overflow: visible;
 
     /* Hidden by default — revealed by .is-expanded class */
     display: none;

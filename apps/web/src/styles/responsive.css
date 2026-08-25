@@ -2,12 +2,44 @@
 @import url("./variables-shared.css");
 /* Standardized breakpoints: 1024px (tablet), 768px (mobile) */
 
+/* ===== SERVICE INTRO =====
+   Declared above the tablet block: the 400px intro image plus the 220px
+   sidebar needs about 1200px before the side-by-side layout fits. Between
+   1025px and 1200px the row layout used to push the page sideways. */
+@media (max-width: 1200px) {
+  .service-intro {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-24);
+  }
+
+  /* Full width, but kept as a banner. `height: auto` here let the image
+     balloon to roughly 830px tall on a tablet. Mirrors how
+     .intro-image-large is capped on the article template. */
+  .service-intro .intro-image {
+    width: 100%;
+    height: clamp(180px, 28vw, 320px);
+  }
+
+  .service-intro .intro-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
 /* ===== TABLET (1024px) ===== */
 @media (max-width: 1024px) {
 
   /* Hero Section */
   .hero-title {
     font-size: var(--text-size-54);
+  }
+
+  /* Softens the 500px -> 825px jump across the 768/769 boundary; an 825px hero
+     fills most of a tablet viewport. */
+  .hero-section {
+    height: 650px;
   }
 
   /* Layouts */
@@ -63,7 +95,7 @@
   /* Service/Blog Grid */
   .service-grid,
   .blog-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   /* Service Layout */
@@ -76,17 +108,6 @@
     display: none;
   }
 
-  /* Service Intro */
-  .service-intro {
-    flex-direction: column;
-    gap: var(--space-24);
-  }
-
-  .intro-image,
-  .intro-image img {
-    width: 100%;
-    height: auto;
-  }
 
   /* Intro Image Large (single post featured image) */
   .intro-image-large {
@@ -115,7 +136,7 @@
 
   /* Service Cards */
   .service-cards {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   /* Footer */
@@ -142,8 +163,12 @@
     font-size: var(--text-size-14);
   }
 
+  /* Horizontal only. The `padding` shorthand also zeroed the vertical padding,
+     and since responsive.css now loads last that beat the `.content`
+     padding-bottom, collapsing the gap under every section on mobile. */
   .container {
-    padding: 0 var(--space-16);
+    padding-left: var(--space-16);
+    padding-right: var(--space-16);
   }
 
   /* Hero Section */
@@ -151,8 +176,28 @@
     height: 500px;
   }
 
+  /* The partner strip is anchored to the bottom of the hero while .hero-content
+     is absolutely positioned over the full height and vertically centred. At
+     500px the centred block ran into the strip, so the CTA sat underneath the
+     scrolling logos on every mobile width. Reserve the strip's height. */
   .hero-content {
     width: 100%;
+    padding-bottom: 110px;
+  }
+
+  .partner-logos {
+    height: 110px;
+  }
+
+  .partner-logos img {
+    height: 38px;
+  }
+
+  /* "YOUR JOURNEY IS OUR DESTINATION" is a flex row; it had nowhere to go on a
+     320px screen. */
+  .hero-subtitle {
+    flex-wrap: wrap;
+    gap: 0.35rem;
   }
 
   .hero-title {
@@ -217,7 +262,7 @@
   /* Service/Blog Grid */
   .service-grid,
   .blog-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   /* Service Title */
@@ -265,6 +310,12 @@
 
   .site-header.sticky {
     transform: none;
+  }
+
+  /* Hide-on-scroll is mobile-only; keep it scoped so a leftover class
+     after resize can't pull the desktop header off-screen. */
+  .site-header.header-invisible {
+    transform: translateY(-100%);
   }
 
   .site-header .container {
@@ -337,6 +388,12 @@
     color: var(--color-accent-orange);
   }
 
+  .nav-container .main-navigation .current-menu-item>a,
+  .nav-container .main-navigation .current-menu-parent>a,
+  .nav-container .main-navigation .current-menu-ancestor>a {
+    font-weight: var(--weight-bold);
+  }
+
   .nav-container .main-navigation {
     list-style: none;
     display: flex;
@@ -375,6 +432,7 @@
 
   .nav-container .language-switcher .lang-active {
     color: var(--color-text-lightest);
+    font-weight: var(--weight-bold);
   }
 
   .nav-container .language-switcher .separator {
@@ -417,6 +475,12 @@
   /* Footer */
   .footer-main {
     padding: var(--space-20) !important;
+  }
+
+  /* .footer-social keeps the 60px desktop gutter from style.css, which left the
+     social icons indented 40px further than the columns above them. */
+  .footer-social {
+    padding: 0 var(--space-20);
   }
 
   .footer-contact {

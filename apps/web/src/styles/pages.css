@@ -25,8 +25,9 @@
   margin: 0 var(--space-6);
 }
 
-.breadcrumbs a.current {
+.breadcrumbs .current {
   font-weight: var(--weight-semi-bold);
+  color: var(--color-text-secondary);
 }
 
 /* Service Layout */
@@ -130,10 +131,13 @@
 }
 
 .intro-image img {
-  width: var(--size-400);
+  width: 100%;
   height: var(--size-260);
   object-fit: cover;
-  flex-shrink: 0;
+}
+
+.service-intro > * {
+  min-width: 0;
 }
 
 /* Intro Image Large */
@@ -157,6 +161,18 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  /* Long German compounds ("Regulierungsanalyse", "FDI-Einschraenkungen")
+     have a min-content width wider than the mobile column and otherwise
+     force the whole page to scroll sideways. */
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+/* As a grid item, .service-content defaults to min-width:auto and is sized by
+   its widest word rather than by its track. */
+.service-layout > .service-content,
+.service-content {
+  min-width: 0;
 }
 
 .service-body h2 {
@@ -282,8 +298,21 @@
 /* Service Grid (archive-service page) */
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
   gap: var(--space-40);
+}
+
+/* Grid items default to min-width:auto, so a single long word can push a track
+   past the viewport. Cap the minimum and let long words wrap instead. */
+.service-grid > *,
+.blog-grid > *,
+.service-cards > * {
+  min-width: 0;
+}
+
+.service-grid-card,
+.service-card {
+  overflow-wrap: break-word;
 }
 
 .service-grid-card img {
@@ -304,7 +333,7 @@
 /* Blog Grid */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   gap: var(--space-40);
 }
 
@@ -359,6 +388,7 @@
 .team-grid-card .team-photo {
   width: 54px;
   height: 54px;
+  flex-shrink: 0;
   border-radius: 100%;
   object-fit: cover;
   display: block;
@@ -882,8 +912,8 @@
 
 .job-tag--type {
   background: rgba(255, 133, 12, 0.08);
-  color: var(--color-accent-orange);
-  border: 1px solid rgba(255, 133, 12, 0.15);
+  color: var(--color-accent-orange-text);
+  border: 1px solid rgba(255, 133, 12, 0.25);
 }
 
 /* Info pills */

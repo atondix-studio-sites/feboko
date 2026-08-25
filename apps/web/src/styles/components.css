@@ -44,7 +44,7 @@
 /* Feature Grid & Cards */
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-63);
   margin-top: var(--space-60);
 }
@@ -159,7 +159,9 @@
 /* Service Cards */
 .service-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* minmax(0,...) rather than 1fr: the auto minimum was letting long titles
+     size the tracks, producing 215|192|281 instead of three equal columns. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-30);
 }
 
@@ -227,7 +229,6 @@
 
 .blog-grid-card .read-more:hover {
   color: var(--color-primary-light);
-  transform: translateX(4px);
 }
 
 /* Blog Card */
@@ -244,6 +245,33 @@
 .blog-grid-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+
+/* The card already reads as clickable on hover, so let the whole surface
+   follow the single existing link instead of only its text. The overlay is
+   positioned against the card, so nothing between it and the card may carry a
+   transform. */
+.blog-grid-card {
+  position: relative;
+}
+
+.blog-grid-card .read-more::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.blog-grid-card .read-more span {
+  display: inline-block;
+  transition: transform var(--transition-base);
+}
+
+.blog-grid-card:hover .read-more {
+  color: var(--color-primary-light);
+}
+
+.blog-grid-card:hover .read-more span {
+  transform: translateX(4px);
 }
 
 .blog-card-image {
@@ -307,9 +335,10 @@
 /* ===== Founder Cards ===== */
 .founder-quotes {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-32);
-  margin-top: var(--space-40);
+  /* Matches the 60px .feature-grid uses after its section header. */
+  margin-top: var(--space-60);
 }
 
 @media (max-width: 768px) {
@@ -412,12 +441,14 @@
   cursor: pointer;
   font-size: var(--text-size-14);
   font-family: var(--font-lato);
-  color: var(--color-primary-accent);
+  color: var(--color-primary-light);
+  text-decoration: underline;
+  text-underline-offset: 3px;
   transition: color var(--transition-fast);
 }
 
 .founder-card-toggle:hover {
-  color: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 /* Toggle text visibility */
