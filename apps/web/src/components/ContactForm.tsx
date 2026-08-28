@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Lang } from "@feboko/shared";
 
 export function ContactForm({ lang }: { lang: Lang }) {
+  const formStartedAt = useRef(0);
   const [accepted, setAccepted] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -36,30 +37,40 @@ export function ContactForm({ lang }: { lang: Lang }) {
     const subject = String(fd.get("your-subject") || "").trim();
     const message = String(fd.get("your-message") || "").trim();
 
-    if (!firstName || !lastName || !email || !subject || !message || !accepted) {
+    if (!form.reportValidity() || !firstName || !lastName || !email || !subject || !message || !accepted) {
       setError(lang === "en" ? "Please fill in all required fields correctly." : "Bitte füllen Sie alle erforderlichen Felder korrekt aus.");
+      return;
+    }
+
+    const siteToken = process.env.NEXT_PUBLIC_STUDIO_SITE_TOKEN;
+    if (!siteToken) {
+      setError(lang === "en" ? "The contact form is temporarily unavailable." : "Das Kontaktformular ist vorübergehend nicht verfügbar.");
       return;
     }
 
     setStatus("loading");
     setError("");
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://studio.atondix.de/api/collect/forms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: `${firstName} ${lastName}`,
-          email,
-          subject,
-          message,
-          language: lang,
+          siteToken,
+          fields: Object.fromEntries(fd.entries()),
           website: String(fd.get("website") || ""),
+          honeypot: String(fd.get("website") || ""),
+          formStartedAt: formStartedAt.current || Date.now(),
+          path: window.location.pathname,
+          url: window.location.href,
+          referrer: document.referrer,
+          consent: "granted",
         }),
       });
       if (!res.ok) throw new Error("failed");
       setStatus("success");
       form.reset();
       setAccepted(false);
+      formStartedAt.current = 0;
     } catch {
       setStatus("error");
       setError(lang === "en" ? "Something went wrong. Please try again." : "Es ist ein Fehler aufgetreten.");
@@ -69,7 +80,13 @@ export function ContactForm({ lang }: { lang: Lang }) {
   return (
     <div className="footer-contact-form-wrapper">
       <div className="wpcf7">
-        <form className="wpcf7-form init" aria-label="Contact form" noValidate onSubmit={onSubmit}>
+        <form
+          className="wpcf7-form init"
+          aria-label="Contact form"
+          noValidate
+          onFocusCapture={() => { formStartedAt.current ||= Date.now(); }}
+          onSubmit={onSubmit}
+        >
           <fieldset className="hidden-fields-container">
             <input type="text" name="website" tabIndex={-1} autoComplete="off" />
           </fieldset>
@@ -86,7 +103,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
 
           <p><label>{copy.message}<br /><span className="wpcf7-form-control-wrap" data-name="your-message"><textarea cols={40} rows={10} maxLength={2000} className="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required" aria-required="true" placeholder={copy.messagePlaceholder} name="your-message" required /></span><br /></label></p>
 
-          <p><span className="wpcf7-form-control-wrap" data-name="acceptance-969"><span className="wpcf7-form-control wpcf7-acceptance"><span className="wpcf7-list-item"><label><input type="checkbox" name="acceptance-969" value="1" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} /><span className="wpcf7-list-item-label">{copy.acceptancePrefix}<a href="/datenschutz" target="_blank" rel="noreferrer">{copy.privacy}</a>.</span></label></span></span></span></p>
+          <p><span className="wpcf7-form-control-wrap" data-name="acceptance-969"><span className="wpcf7-form-control wpcf7-acceptance"><span className="wpcf7-list-item"><label><input type="checkbox" name="acceptance-969" value="1" required checked={accepted} onChange={(event) => setAccepted(event.target.checked)} /><span className="wpcf7-list-item-label">{copy.acceptancePrefix}<a href="/datenschutz" target="_blank" rel="noreferrer">{copy.privacy}</a>.</span></label></span></span></span></p>
 
           <p><input className="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value={copy.submit} disabled={!accepted || status === "loading"} /><span className="wpcf7-spinner"></span></p>
 
