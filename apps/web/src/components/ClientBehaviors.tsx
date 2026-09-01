@@ -21,6 +21,7 @@ function initMegaMenu() {
 
   const $cats = Array.from(document.querySelectorAll(".mega-menu-category"));
   const $lists = Array.from(document.querySelectorAll(".mega-menu-subservice-list"));
+  const wrappers = document.querySelectorAll(".mega-menu-category-wrapper");
   let openTimer: ReturnType<typeof setTimeout> | null = null;
   let closeTimer: ReturnType<typeof setTimeout> | null = null;
   let isOpen = false;
@@ -43,6 +44,7 @@ function initMegaMenu() {
   }
 
   function openMenu() {
+    if ($li.classList.contains("mega-menu-dismissed")) return;
     if (isOpen) return;
     isOpen = true;
     $li.classList.add("mega-menu-open");
@@ -54,12 +56,20 @@ function initMegaMenu() {
   }
 
   function closeMenu() {
-    if (!isOpen) return;
     isOpen = false;
     $li.classList.remove("mega-menu-open");
+    $panel.classList.remove("is-expanded");
     $panel.setAttribute("aria-hidden", "true");
     if ($toggle) $toggle.setAttribute("aria-expanded", "false");
     $link?.setAttribute("aria-expanded", "false");
+    wrappers.forEach((wrapper) => wrapper.classList.remove("is-sub-expanded"));
+  }
+
+  function dismissMenu() {
+    if (openTimer) clearTimeout(openTimer);
+    if (closeTimer) clearTimeout(closeTimer);
+    closeMenu();
+    $li.classList.add("mega-menu-dismissed");
   }
 
   function initDesktopHover() {
@@ -72,6 +82,7 @@ function initMegaMenu() {
     });
     $li.addEventListener("mouseleave", () => {
       if (openTimer) clearTimeout(openTimer);
+      $li.classList.remove("mega-menu-dismissed");
       closeTimer = setTimeout(closeMenu, CLOSE_DELAY);
     });
     $cats.forEach((cat, index) => {
@@ -84,6 +95,7 @@ function initMegaMenu() {
       if (closeTimer) clearTimeout(closeTimer);
       openMenu();
     });
+    $link.addEventListener("click", dismissMenu);
   }
 
   $cats.forEach((cat, index) => {
@@ -122,7 +134,6 @@ function initMegaMenu() {
     });
   }
 
-  const wrappers = document.querySelectorAll(".mega-menu-category-wrapper");
   wrappers.forEach((wrapper) => {
     const catLink = wrapper.querySelector(".mega-menu-category");
     if (!catLink) return;
@@ -136,6 +147,11 @@ function initMegaMenu() {
       wrappers.forEach((w) => w.classList.remove("is-sub-expanded"));
       if (!expanded) wrapper.classList.add("is-sub-expanded");
     });
+  });
+
+  $panel.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("a")) dismissMenu();
   });
 
   function updateLayout() {
@@ -221,8 +237,9 @@ export function ClientBehaviors() {
 
     $nav?.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
-      if (target.closest("#mega-menu-panel")) return;
-      if (target.closest("a")) closeMenu();
+      const link = target.closest("a");
+      if (!link || link.classList.contains("mega-menu-category")) return;
+      closeMenu();
     });
 
     let smoothScrollRafId = 0;

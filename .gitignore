@@ -2,6 +2,7 @@ node_modules/
 .next/
 dist/
 .turbo/
+test-results/
 .env
 .env.local
 *.log

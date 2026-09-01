@@ -26,6 +26,39 @@ test("mobile homepage preserves production header, hero, and drawer behavior", a
   await expect(page.locator(".nav-container > .language-switcher")).toBeVisible();
 });
 
+test("desktop mega-menu closes after selecting a service link", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+
+  const trigger = page.locator(".mega-menu-trigger-link");
+  const panel = page.locator("#mega-menu-panel");
+  await trigger.hover();
+  await expect(panel).toBeVisible();
+
+  await panel.locator(".mega-menu-subservice-list.is-visible .mega-menu-links a").first().click();
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+  await expect(panel).toBeHidden();
+});
+
+test("mobile mega-menu closes its accordion and navigation drawer after selection", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await page.waitForFunction(
+    () => document.querySelector<HTMLElement>(".menu-item-has-mega-menu")?.dataset.megaMenuInitialized === "true",
+  );
+
+  await page.locator(".hamburger-toggle").click();
+  await expect(page.locator(".nav-container")).toHaveClass(/active/);
+  await page.locator(".mega-menu-toggle").click();
+  await page.locator(".mega-menu-category").first().click();
+  await page.locator(".mega-menu-category-mobile-sub a").first().click();
+
+  await expect(page.locator(".nav-container")).not.toHaveClass(/active/);
+  await expect(page.locator("#mega-menu-panel")).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator(".mega-menu-toggle")).toHaveAttribute("aria-expanded", "false");
+  await expect(page.locator("body")).not.toHaveClass(/menu-open/);
+});
+
 test("homepage carousel exposes production endpoint states", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");
