@@ -7,8 +7,6 @@ import { localizePath, mediaSrc } from "@/lib/utils";
 import { prisma } from "@/lib/db";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { TeamCard, teamMemberKey } from "@/components/TeamCard";
-import { StudioPeopleGrid } from "@/components/content/StudioContentSlots";
-import { studioContentEnabled } from "@/lib/studio-content";
 
 export const metadata: Metadata = {
   title: "Team Members",
@@ -79,15 +77,11 @@ export default async function TeamPage({
       <section className="content-section">
         <div className="container content">
           <h2 className="section-title">{t(lang, "Treffen Sie unser Team", "Meet Our Team")}</h2>
-          {studioContentEnabled() ? (
-            <StudioPeopleGrid lang={lang} />
-          ) : (
-            <div className="team-grid">
-              {members.map((member) => (
-                <TeamCard key={member.id} member={member} lang={lang} activeKey={activeKey} />
-              ))}
-            </div>
-          )}
+          <div className="team-grid">
+            {members.map((member) => (
+              <TeamCard key={member.id} member={member} lang={lang} activeKey={activeKey} />
+            ))}
+          </div>
         </div>
       </section>
 

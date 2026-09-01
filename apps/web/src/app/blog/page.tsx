@@ -5,8 +5,6 @@ import { getBlogPosts } from "@/lib/data";
 import { localizePath } from "@/lib/utils";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { BlogCard } from "@/components/BlogCard";
-import { StudioNewsGrid } from "@/components/content/StudioContentSlots";
-import { studioContentEnabled } from "@/lib/studio-content";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -34,9 +32,7 @@ export default async function BlogPage() {
 
       <section className="content-section">
         <div className="container content">
-          {studioContentEnabled() ? (
-            <StudioNewsGrid lang={lang} />
-          ) : posts.length > 0 ? (
+          {posts.length > 0 ? (
             <div className="blog-grid">
               {posts.map((post) => (
                 <BlogCard key={post.id} post={post} lang={lang} />

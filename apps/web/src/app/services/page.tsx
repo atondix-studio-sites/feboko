@@ -5,8 +5,6 @@ import { getRequestLang } from "@/lib/lang";
 import { getServices } from "@/lib/data";
 import { localizePath, mediaSrc } from "@/lib/utils";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
-import { StudioServicesGrid } from "@/components/content/StudioContentSlots";
-import { studioContentEnabled } from "@/lib/studio-content";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -34,9 +32,7 @@ export default async function ServicesPage() {
 
       <section className="content-section">
         <div className="container content">
-          {studioContentEnabled() ? (
-            <StudioServicesGrid lang={lang} />
-          ) : services.length > 0 ? (
+          {services.length > 0 ? (
             <div className="service-grid">
               {services.map((service) => (
                 <article className="service-grid-card" key={service.id}>

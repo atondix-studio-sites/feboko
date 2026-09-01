@@ -7,8 +7,6 @@ import { localizePath, mediaSrc } from "@/lib/utils";
 import { prisma } from "@/lib/db";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 import { JobCard } from "@/components/JobCard";
-import { StudioJobsGrid } from "@/components/content/StudioContentSlots";
-import { studioContentEnabled } from "@/lib/studio-content";
 
 export const metadata: Metadata = {
   title: "Jobs",
@@ -78,9 +76,7 @@ export default async function KarrierePage() {
 
       <section className="content-section">
         <div className="container content">
-          {studioContentEnabled() ? (
-            <StudioJobsGrid lang={lang} />
-          ) : jobs.length > 0 ? (
+          {jobs.length > 0 ? (
             <div className="job-grid">
               {jobs.map((job) => (
                 <JobCard key={job.id} job={job} lang={lang} />
