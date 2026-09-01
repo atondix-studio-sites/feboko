@@ -15,12 +15,21 @@ export function SiteFooter({
   lang,
   footerFeboko,
   footerLegal,
+  contactEmail,
+  contactPhone,
+  linkedinUrl,
 }: {
   lang: Lang;
   footerFeboko: NavItem[];
   footerLegal: NavItem[];
+  contactEmail?: string | null;
+  contactPhone?: string | null;
+  linkedinUrl?: string | null;
 }) {
   const label = (item: NavItem) => (lang === "en" ? item.labelEn || item.labelDe : item.labelDe || item.labelEn) ?? "";
+  const email = contactEmail || "info@feboko.com";
+  const phone = contactPhone || "+49 (0) 157 33717052";
+  const linkedin = linkedinUrl || "https://www.linkedin.com/company/feboko";
 
   return (
     <footer className="site-footer" id="contact">
@@ -34,8 +43,8 @@ export function SiteFooter({
             <p className="section-description">
               {t(
                 lang,
-                "Profitieren Sie von globaler Perspektive und lokaler Expertise – für Ihren Markteintritt in Indien. Fundierte Marktanalysen, Standortbewertungen und unser starkes Netzwerk sichern Ihren nachhaltigen Erfolg.",
-                "Benefit from a global perspective and local expertise – for your market entry in India. Thorough market analyses, location assessments, and our strong network ensure your sustainable success.",
+                "Profitieren Sie von globaler Perspektive und lokaler Expertise – für Ihren Markteintritt in Indien. Fundierte Marktanalysen, Standortbewertungen und unser starkes Netzwerk aus ausgewählten Partnern sichern Ihren nachhaltigen Erfolg.",
+                "Benefit from a global perspective and local expertise – for your market entry in India. In-depth market analyses, location assessments and our strong network of selected partners ensure your long-term success.",
               )}
             </p>
           </div>
@@ -59,8 +68,8 @@ export function SiteFooter({
                 95448 Bayreuth
               </p>
             )}
-            <p>E-Mail: <a href="mailto:info@feboko.com" data-atondix-field="contact.email">info@feboko.com</a></p>
-            <p data-atondix-field="contact.phone">Tel.: +49 (0) 157 33717052</p>
+            <p>E-Mail: <a href={`mailto:${email}`} data-atondix-field="contact.email">{email}</a></p>
+            <p data-atondix-field="contact.phone">Tel.: {phone}</p>
           </div>
           <div className="footer-contact-block">
             <h4>FeBoKo & Partners India Pvt. Ltd.</h4>
@@ -108,7 +117,7 @@ export function SiteFooter({
       </div>
 
       <div className="footer-social">
-        <a href="https://www.linkedin.com/company/feboko" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
+        <a href={linkedin} target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn">
           <svg width="45" height="45" viewBox="0 0 45 45" fill="none">
             <rect width="45" height="45" fill="#787DB9" />
             <path

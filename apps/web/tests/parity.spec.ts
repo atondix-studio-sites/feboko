@@ -4,12 +4,12 @@ const routes = ["/", "/services", "/team", "/karriere", "/blog", "/impressum"];
 
 for (const route of routes) {
   test(`page loads DE: ${route}`, async ({ page }) => {
-    await page.goto(`http://localhost:3000${route}`);
+    await page.goto(route);
     await expect(page.locator("header.site-header")).toBeVisible();
   });
 
   test(`page loads EN: ${route}`, async ({ page }) => {
-    await page.goto(`http://localhost:3000${route}?lang=en`);
+    await page.goto(`${route}?lang=en`);
     await expect(page.locator("header.site-header")).toBeVisible();
   });
 }
@@ -49,6 +49,20 @@ test("contact form matches the production field and consent flow", async ({ page
   await expect(submit).toBeDisabled();
   await page.locator('[name="acceptance-969"]').check();
   await expect(submit).toBeEnabled();
+
+  await page.goto("/?lang=en");
+  await expect(page.locator('form[aria-label="Contact form"] a[href="/datenschutz?lang=en"]')).toHaveAttribute(
+    "href",
+    "/datenschutz?lang=en",
+  );
+});
+
+test("footer keeps the production consultation and contact data", async ({ page }) => {
+  await page.goto("/");
+  const footer = page.locator("footer.site-footer");
+  await expect(footer).toContainText("Netzwerk aus ausgewählten Partnern");
+  await expect(footer).toContainText("info@feboko.com");
+  await expect(footer).toContainText("+49 (0) 157 33717052");
 });
 
 test("production blog permalinks and 404 copy are preserved", async ({ page }) => {

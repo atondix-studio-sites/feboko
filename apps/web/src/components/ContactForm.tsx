@@ -26,6 +26,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
         message: "Ihre Nachricht", messagePlaceholder: "Ihre Nachricht an uns",
         acceptancePrefix: "Ich akzeptiere die ", privacy: "Datenschutzerklärung", submit: "Nachricht absenden",
       };
+  const privacyHref = lang === "en" ? "/datenschutz?lang=en" : "/datenschutz";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -103,7 +104,7 @@ export function ContactForm({ lang }: { lang: Lang }) {
 
           <p><label>{copy.message}<br /><span className="wpcf7-form-control-wrap" data-name="your-message"><textarea cols={40} rows={10} maxLength={2000} className="wpcf7-form-control wpcf7-textarea wpcf7-validates-as-required" aria-required="true" placeholder={copy.messagePlaceholder} name="your-message" required /></span><br /></label></p>
 
-          <p><span className="wpcf7-form-control-wrap" data-name="acceptance-969"><span className="wpcf7-form-control wpcf7-acceptance"><span className="wpcf7-list-item"><label><input type="checkbox" name="acceptance-969" value="1" required checked={accepted} onChange={(event) => setAccepted(event.target.checked)} /><span className="wpcf7-list-item-label">{copy.acceptancePrefix}<a href="/datenschutz" target="_blank" rel="noreferrer">{copy.privacy}</a>.</span></label></span></span></span></p>
+          <p><span className="wpcf7-form-control-wrap" data-name="acceptance-969"><span className="wpcf7-form-control wpcf7-acceptance"><span className="wpcf7-list-item"><label><input type="checkbox" name="acceptance-969" value="1" required checked={accepted} onChange={(event) => setAccepted(event.target.checked)} /><span className="wpcf7-list-item-label">{copy.acceptancePrefix}<a href={privacyHref} target="_blank" rel="noreferrer">{copy.privacy}</a>.</span></label></span></span></span></p>
 
           <p><input className="wpcf7-form-control wpcf7-submit has-spinner" type="submit" value={copy.submit} disabled={!accepted || status === "loading"} /><span className="wpcf7-spinner"></span></p>
 

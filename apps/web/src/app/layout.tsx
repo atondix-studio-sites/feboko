@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getRequestLang } from "@/lib/lang";
-import { getNavItems, getServices } from "@/lib/data";
+import { getNavItems, getServices, getSiteSettings } from "@/lib/data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ClientBehaviors } from "@/components/ClientBehaviors";
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const lang = await getRequestLang();
   const services = await getServices(lang);
+  const siteSettings = await getSiteSettings();
   const footerFeboko = await getNavItems("footer-feboko");
   const footerLegal = await getNavItems("footer-legal");
 
@@ -34,7 +35,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <SiteHeader lang={lang} services={menuServices} />
         {children}
-        <SiteFooter lang={lang} footerFeboko={footerFeboko} footerLegal={footerLegal} />
+        <SiteFooter
+          lang={lang}
+          footerFeboko={footerFeboko}
+          footerLegal={footerLegal}
+          contactEmail={siteSettings?.contactEmail}
+          contactPhone={siteSettings?.contactPhone}
+          linkedinUrl={siteSettings?.linkedinUrl}
+        />
         <ClientBehaviors />
         <StudioSdk />
       </body>
