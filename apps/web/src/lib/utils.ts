@@ -36,6 +36,61 @@ export function trimWords(value: string, limit: number, more = "…"): string {
   return words.length > limit ? `${words.slice(0, limit).join(" ")}${more}` : value;
 }
 
+export function anchorSlug(label: string): string {
+  return label
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function decodeHeadingText(value: string): string {
+  const namedEntities: Record<string, string> = {
+    amp: "&",
+    apos: "'",
+    gt: ">",
+    lt: "<",
+    nbsp: " ",
+    quot: '"',
+  };
+
+  return value
+    .replace(/<[^>]*>/g, "")
+    .replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);/gi, (entity, code: string) => {
+      if (code.startsWith("#x") || code.startsWith("#X")) {
+        return String.fromCodePoint(Number.parseInt(code.slice(2), 16));
+      }
+      if (code.startsWith("#")) {
+        return String.fromCodePoint(Number.parseInt(code.slice(1), 10));
+      }
+      return namedEntities[code.toLowerCase()] ?? entity;
+    })
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Add stable fragment targets to content headings while preserving authored IDs. */
+export function addHeadingAnchors(value: string): string {
+  const slugCounts = new Map<string, number>();
+
+  return value.replace(
+    /<h([2-6])([^>]*)>([\s\S]*?)<\/h\1>/gi,
+    (heading, level: string, attributes: string, contents: string) => {
+      if (/\sid\s*=/i.test(attributes)) return heading;
+
+      const baseSlug = anchorSlug(decodeHeadingText(contents));
+      if (!baseSlug) return heading;
+
+      const count = (slugCounts.get(baseSlug) ?? 0) + 1;
+      slugCounts.set(baseSlug, count);
+      const id = count === 1 ? baseSlug : `${baseSlug}-${count}`;
+
+      return `<h${level}${attributes} id="${id}">${contents}</h${level}>`;
+    },
+  );
+}
+
 const BLOCK_TAGS =
   "address|article|aside|blockquote|details|dialog|dd|div|dl|dt|fieldset|figcaption|figure|footer|form|h[1-6]|header|hgroup|hr|li|main|nav|ol|p|pre|section|summary|table|tbody|td|tfoot|th|thead|tr|ul";
 

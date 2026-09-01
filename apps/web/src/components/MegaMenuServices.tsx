@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Lang } from "@feboko/shared";
 import { t } from "@feboko/shared";
-import { localizePath } from "@/lib/utils";
+import { anchorSlug, localizePath } from "@/lib/utils";
 
 const EXCLUDED = [
   "unsere schwerpunkte",
@@ -16,15 +16,6 @@ type ServiceMenuItem = {
   title: string;
   megaMenuItems: string | null;
 };
-
-function anchorSlug(label: string): string {
-  return label
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 export function MegaMenuServices({
   lang,

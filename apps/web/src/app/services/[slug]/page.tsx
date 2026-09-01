@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { t } from "@feboko/shared";
 import { getRequestLang } from "@/lib/lang";
 import { getService, getServices } from "@/lib/data";
-import { localizePath, mediaSrc, trimWords, wpAutoP } from "@/lib/utils";
+import { addHeadingAnchors, localizePath, mediaSrc, trimWords, wpAutoP } from "@/lib/utils";
 import { Breadcrumbs, ServiceHero } from "@/components/PageChrome";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -23,6 +23,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const service = await getService(slug, lang);
   if (!service) notFound();
   const allServices = await getServices(lang);
+  const serviceContent = addHeadingAnchors(wpAutoP(service.content || ""));
 
   const currentIndex = allServices.findIndex((s) => s.id === service.id);
   const nextServices =
@@ -81,7 +82,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
           <hr className="small" />
 
-          <div className="service-body content" dangerouslySetInnerHTML={{ __html: wpAutoP(service.content || "") }} />
+          <div className="service-body content" dangerouslySetInnerHTML={{ __html: serviceContent }} />
 
           <hr />
 
