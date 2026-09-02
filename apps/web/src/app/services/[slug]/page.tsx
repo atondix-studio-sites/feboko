@@ -75,6 +75,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 <img
                   src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)}
                   alt={service.title}
+                  decoding="async"
                 />
               </div>
             )}
@@ -97,6 +98,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                         <img
                           src={mediaSrc(next.featuredImage.localPath, next.featuredImage.originalUrl)}
                           alt={next.title}
+                          loading="lazy"
+                          decoding="async"
                         />
                       </div>
                     )}

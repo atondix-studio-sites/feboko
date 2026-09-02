@@ -54,7 +54,12 @@ export function BlogCard({ post, lang }: { post: BlogCardPost; lang: Lang }) {
     <article className="blog-grid-card">
       {post.featuredImage && (
         <div className="blog-card-image">
-          <img src={mediaSrc(post.featuredImage.localPath, post.featuredImage.originalUrl)} alt={post.title} />
+          <img
+            src={mediaSrc(post.featuredImage.localPath, post.featuredImage.originalUrl)}
+            alt={post.title}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       )}
       <div className="blog-card-body">

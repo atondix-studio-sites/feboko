@@ -44,7 +44,7 @@ export async function HomePage({ lang }: { lang: Lang }) {
     <>
       <section className="hero-section">
         <div className="hero-overlay">
-          <img src={headerSrc} alt="FeBoKo Consulting" />
+          <img src={headerSrc} alt="FeBoKo Consulting" fetchPriority="high" decoding="async" />
           <div className="hero-gradient"></div>
         </div>
         <div className="hero-content container">
@@ -65,6 +65,7 @@ export async function HomePage({ lang }: { lang: Lang }) {
                       key={`${p.id}-${i}`}
                       src={mediaSrc(p.logo.localPath, p.logo.originalUrl)}
                       alt={p.name}
+                      decoding="async"
                     />,
                   ]
                 : [],
@@ -78,9 +79,9 @@ export async function HomePage({ lang }: { lang: Lang }) {
           <div className="column-flex-2 reverse layout-about">
             <div className="column1">
               {aboutImage ? (
-                <img src={aboutImage} alt="About FeBoKo" />
+                <img src={aboutImage} alt="About FeBoKo" loading="lazy" decoding="async" />
               ) : (
-                <img src="/images/about.jpg" alt="About FeBoKo" />
+                <img src="/images/about.jpg" alt="About FeBoKo" loading="lazy" decoding="async" />
               )}
             </div>
             <div className="column2 text">
@@ -106,9 +107,9 @@ export async function HomePage({ lang }: { lang: Lang }) {
             </div>
             <div className="column2">
               {teamImage ? (
-                <img src={teamImage} alt="Team" />
+                <img src={teamImage} alt="Team" loading="lazy" decoding="async" />
               ) : (
-                <img src="/images/neverchangearunningteam.jpg" alt="Never change a running team" />
+                <img src="/images/neverchangearunningteam.jpg" alt="Never change a running team" loading="lazy" decoding="async" />
               )}
             </div>
           </div>
@@ -139,8 +140,8 @@ export async function HomePage({ lang }: { lang: Lang }) {
 
       <section className="quote-section bg-primary-light">
         <div className="container content">
-          <img className="icon1" src="/icons/quote.svg" alt="" />
-          <img className="icon2" src="/icons/quote.svg" alt="" />
+          <img className="icon1" src="/icons/quote.svg" alt="" loading="lazy" decoding="async" />
+          <img className="icon2" src="/icons/quote.svg" alt="" loading="lazy" decoding="async" />
           <p dangerouslySetInnerHTML={{ __html: formatQuote(get("quote", "text")) }} />
           <p className="author">{get("quote", "author")}</p>
         </div>
@@ -211,7 +212,12 @@ export async function HomePage({ lang }: { lang: Lang }) {
               {services.map((service) => (
                 <article className="service-grid-card" key={service.id}>
                   {service.featuredImage && (
-                    <img src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)} alt={service.title} />
+                    <img
+                      src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)}
+                      alt={service.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   )}
                   <h3>{service.title}</h3>
                   <p>{service.excerpt}</p>

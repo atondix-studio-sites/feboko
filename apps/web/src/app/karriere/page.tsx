@@ -53,7 +53,11 @@ export default async function KarrierePage() {
               <p className="section-description" dangerouslySetInnerHTML={{ __html: get("about", "text") }} />
             </div>
             <div className="column2">
-              {aboutImage ? <img src={aboutImage} alt="" /> : <img src="/images/about.jpg" alt="" />}
+              {aboutImage ? (
+                <img src={aboutImage} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <img src="/images/about.jpg" alt="" loading="lazy" decoding="async" />
+              )}
             </div>
           </div>
         </div>

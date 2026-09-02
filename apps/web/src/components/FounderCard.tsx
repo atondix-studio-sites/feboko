@@ -19,7 +19,7 @@ export function FounderCard({
     <div className="founder-card">
       <div className="founder-card-header">
         <div className="founder-card-avatar">
-          <img className="founder-avatar-img" src={image} alt={name} />
+          <img className="founder-avatar-img" src={image} alt={name} loading="lazy" decoding="async" />
         </div>
         <div className="founder-card-info">
           <h3 className="founder-card-name">{name}</h3>

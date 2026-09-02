@@ -7,11 +7,11 @@ export function StudioPeopleGrid({ lang }: { lang: Lang }) {
     <div className="team-grid" data-atondix-collection="people">
       <article className="team-grid-card" data-atondix-entry>
         <div className="team-photo-large-wrapper">
-          <img className="team-photo-large" data-atondix-field="photo" alt="" src="/images/about.jpg" />
+          <img className="team-photo-large" data-atondix-field="photo" alt="" src="/images/about.jpg" loading="lazy" decoding="async" />
         </div>
         <div className="team-content">
           <div className="team-header">
-            <img className="team-photo" data-atondix-field="photo" alt="" src="/images/about.jpg" />
+            <img className="team-photo" data-atondix-field="photo" alt="" src="/images/about.jpg" loading="lazy" decoding="async" />
             <div>
               <h3 data-atondix-field="name">{t(lang, "Teammitglied", "Team member")}</h3>
               <p className="position" data-atondix-field="role">
@@ -37,7 +37,7 @@ export function StudioServicesGrid({ lang }: { lang: Lang }) {
   return (
     <div className="service-grid" data-atondix-collection="services">
       <article className="service-grid-card" data-atondix-entry>
-        <img data-atondix-field="image" alt="" src="/images/about.jpg" />
+        <img data-atondix-field="image" alt="" src="/images/about.jpg" loading="lazy" decoding="async" />
         <h3 data-atondix-field="title">{t(lang, "Leistung", "Service")}</h3>
         <p data-atondix-field="excerpt">{t(lang, "Kurzbeschreibung", "Summary")}</p>
         <span className="read-more">{t(lang, "Weiterlesen", "Read More")}</span>
@@ -51,7 +51,7 @@ export function StudioServicesCarousel({ lang }: { lang: Lang }) {
   return (
     <div className="service-carousel-track" id="service-carousel-track" data-atondix-collection="services">
       <article className="service-grid-card service-card" data-atondix-entry>
-        <img data-atondix-field="image" alt="" src="/images/about.jpg" />
+        <img data-atondix-field="image" alt="" src="/images/about.jpg" loading="lazy" decoding="async" />
         <h3 data-atondix-field="title">{t(lang, "Leistung", "Service")}</h3>
         <p data-atondix-field="excerpt">{t(lang, "Kurzbeschreibung", "Summary")}</p>
         <span className="read-more">{t(lang, "Weiterlesen", "Read More")}</span>
@@ -90,7 +90,7 @@ export function StudioNewsGrid({ lang }: { lang: Lang }) {
     <div className="blog-grid" data-atondix-collection="news">
       <article className="blog-grid-card" data-atondix-entry>
         <div className="blog-card-image">
-          <img data-atondix-field="image" alt="" src="/images/about.jpg" />
+          <img data-atondix-field="image" alt="" src="/images/about.jpg" loading="lazy" decoding="async" />
         </div>
         <div className="blog-card-body">
           <div className="blog-meta">
@@ -111,7 +111,7 @@ export function StudioPartnersStrip() {
   return (
     <div className="partner-logos-scroll" data-atondix-collection="partners">
       <div data-atondix-entry className="partner-logo-slot">
-        <img data-atondix-field="logo" alt="" src="/images/about.jpg" />
+        <img data-atondix-field="logo" alt="" src="/images/about.jpg" loading="lazy" decoding="async" />
       </div>
     </div>
   );

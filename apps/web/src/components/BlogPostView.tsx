@@ -36,7 +36,12 @@ export async function BlogPostView({ slug }: { slug: string }) {
           <div className="service-intro">
             {post.featuredImage && (
               <div className="intro-image-large">
-                <img src={mediaSrc(post.featuredImage.localPath, post.featuredImage.originalUrl)} alt={post.title} />
+                <img
+                  src={mediaSrc(post.featuredImage.localPath, post.featuredImage.originalUrl)}
+                  alt={post.title}
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             )}
           </div>

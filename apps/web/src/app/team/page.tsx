@@ -65,9 +65,9 @@ export default async function TeamPage({
             </div>
             <div className="column2">
               {introImage ? (
-                <img src={introImage} alt="Introduction FeBoKo" />
+                <img src={introImage} alt="Introduction FeBoKo" loading="lazy" decoding="async" />
               ) : (
-                <img src="/images/about.jpg" alt="Introduction FeBoKo" />
+                <img src="/images/about.jpg" alt="Introduction FeBoKo" loading="lazy" decoding="async" />
               )}
             </div>
           </div>
@@ -90,9 +90,9 @@ export default async function TeamPage({
           <div className="column-flex-2 reverse layout-about">
             <div className="column1">
               {missionImage ? (
-                <img src={missionImage} alt="Mission FeBoKo" />
+                <img src={missionImage} alt="Mission FeBoKo" loading="lazy" decoding="async" />
               ) : (
-                <img src="/images/mission.jpg" alt="Mission FeBoKo" />
+                <img src="/images/mission.jpg" alt="Mission FeBoKo" loading="lazy" decoding="async" />
               )}
             </div>
             <div className="column2 text">
@@ -113,9 +113,9 @@ export default async function TeamPage({
             </div>
             <div className="column2">
               {visionImage ? (
-                <img src={visionImage} alt="Vision FeBoKo" />
+                <img src={visionImage} alt="Vision FeBoKo" loading="lazy" decoding="async" />
               ) : (
-                <img src="/images/vision.jpg" alt="Vision FeBoKo" />
+                <img src="/images/vision.jpg" alt="Vision FeBoKo" loading="lazy" decoding="async" />
               )}
             </div>
           </div>

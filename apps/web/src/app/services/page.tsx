@@ -40,6 +40,8 @@ export default async function ServicesPage() {
                     <img
                       src={mediaSrc(service.featuredImage.localPath, service.featuredImage.originalUrl)}
                       alt={service.title}
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                   <h3>{service.title}</h3>

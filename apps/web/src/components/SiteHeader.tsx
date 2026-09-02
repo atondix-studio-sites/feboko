@@ -44,7 +44,7 @@ export function SiteHeader({
       <div className="container">
         <div className="site-logo">
           <Link href={home}>
-            <img src="/images/logo.svg" alt="FeBoKo Consulting" width={161} height={65} />
+            <img src="/images/logo.svg" alt="FeBoKo Consulting" width={161} height={65} decoding="async" />
           </Link>
         </div>
 

@@ -18,6 +18,13 @@ test("site metadata exposes localized descriptions and FeBoKo favicons", async (
   );
 });
 
+test("image loading prioritizes the hero and defers below-fold content", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator(".hero-overlay img")).toHaveAttribute("fetchpriority", "high");
+  await expect(page.locator(".layout-about img").first()).toHaveAttribute("loading", "lazy");
+  await expect(page.locator(".service-grid-card img").first()).toHaveAttribute("loading", "lazy");
+});
+
 for (const route of routes) {
   test(`page loads DE: ${route}`, async ({ page }) => {
     await page.goto(route);

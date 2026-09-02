@@ -42,6 +42,8 @@ export function TeamCard({
             className="team-photo-large"
             src={mediaSrc(member.image.localPath, member.image.originalUrl)}
             alt={member.name}
+            loading="lazy"
+            decoding="async"
           />
         </div>
       )}
@@ -52,6 +54,8 @@ export function TeamCard({
               className="team-photo"
               src={mediaSrc(member.image.localPath, member.image.originalUrl)}
               alt={member.name}
+              loading="lazy"
+              decoding="async"
             />
           )}
           <div>
