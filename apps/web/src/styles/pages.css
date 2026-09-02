@@ -423,11 +423,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   color: var(--color-text-muted);
-  /* The single property that drives the smooth height change of the card.
-     All other layout-affecting properties snap instantly so nothing else
-     competes with this transition or pushes the height past its final. */
-  max-height: 7em;
-  transition: max-height var(--transition-base) ease-in-out;
 }
 
 .team-grid-card .read-more {
@@ -474,13 +469,10 @@
 
 .team-grid-card.active .about {
   display: block;
-  /* overflow: hidden + a finite max-height lets max-height drive the
-     smooth height growth. The cap is high enough to fit any realistic
-     about-text length so real content is never clipped. */
-  overflow: hidden;
+  overflow: visible;
   line-clamp: unset;
   -webkit-line-clamp: unset;
-  max-height: 30em;
+  animation: contentReveal 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .team-grid-card.active .team-photo {

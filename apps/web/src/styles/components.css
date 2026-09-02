@@ -403,14 +403,10 @@
 /* Body: collapsible text */
 .founder-card-body {
   overflow: hidden;
-  max-height: 3.6em;
-  /* ~2 lines collapsed */
-  transition: max-height 0.4s ease;
 }
 
 .founder-card.is-expanded .founder-card-body {
-  max-height: 600px;
-  /* large enough for any content */
+  animation: contentReveal 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .founder-card.is-expanded .founder-card-text {

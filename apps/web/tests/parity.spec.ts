@@ -25,6 +25,20 @@ test("image loading prioritizes the hero and defers below-fold content", async (
   await expect(page.locator(".service-grid-card img").first()).toHaveAttribute("loading", "lazy");
 });
 
+test("expanded biographies use compositor-safe reveal animation", async ({ page }) => {
+  await page.goto("/");
+  const founder = page.locator(".founder-card").first();
+  await founder.locator(".founder-card-toggle").click();
+  await expect(founder).toHaveClass(/is-expanded/);
+  await expect(founder.locator(".founder-card-body")).toHaveCSS("animation-name", "contentReveal");
+
+  await page.goto("/team");
+  const member = page.locator(".team-grid-card").first();
+  await member.locator(".read-more").click();
+  await expect(member).toHaveClass(/active/);
+  await expect(member.locator(".about")).toHaveCSS("animation-name", "contentReveal");
+});
+
 for (const route of routes) {
   test(`page loads DE: ${route}`, async ({ page }) => {
     await page.goto(route);
