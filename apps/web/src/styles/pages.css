@@ -342,7 +342,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-20);
-  align-items: start;
+  align-items: flex-start;
 }
 
 .team-grid-card {
@@ -698,7 +698,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-32);
-  align-items: start;
+  align-items: flex-start;
 }
 
 /* ── Single job card ── */
