@@ -2,6 +2,22 @@ import { test, expect } from "@playwright/test";
 
 const routes = ["/", "/services", "/team", "/karriere", "/blog", "/impressum"];
 
+test("site metadata exposes localized descriptions and FeBoKo favicons", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    "FeBoKo Consulting begleitet europäische Unternehmen beim Markteintritt in Indien – von Marktanalyse und Gründung bis Recht, Steuern, Finance und Umsetzung.",
+  );
+  await expect(page.locator('link[rel="icon"][sizes="32x32"]')).toHaveAttribute("href", "/favicon-32x32.png");
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute("href", "/favicon-300x300.png");
+
+  await page.goto("/?lang=en");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    "FeBoKo Consulting supports European companies entering India—from market analysis and company formation to legal, tax, finance and operational delivery.",
+  );
+});
+
 for (const route of routes) {
   test(`page loads DE: ${route}`, async ({ page }) => {
     await page.goto(route);
